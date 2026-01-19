@@ -1,0 +1,4452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANCHESTER Content Studio 2026</title>
+    <style>
+        :root{--vermelho:#C41E3A;--vermelho-dark:#9B1830;--dourado:#C9A227;--preto:#0a0a0a;--preto2:#111;--preto3:#1a1a1a;--preto4:#222;--branco:#fff;--cinza:#888;--cinza2:#555;--verde:#22c55e;--azul:#3b82f6;--roxo:#a855f7;--laranja:#f97316}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--preto);color:var(--branco);min-height:100vh}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:linear-gradient(135deg,var(--preto2),var(--preto));border-bottom:1px solid #222;position:sticky;top:0;z-index:100}
+        .logo{display:flex;align-items:center;gap:12px}
+        .logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--vermelho),var(--vermelho-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;font-style:italic;box-shadow:0 4px 15px rgba(196,30,58,0.3)}
+        .logo-text{font-size:20px;font-weight:900;letter-spacing:3px}
+        .logo-sub{font-size:9px;color:var(--cinza);letter-spacing:1px}
+        .header-actions{display:flex;gap:10px}
+        .header-btn{padding:8px 16px;background:var(--preto3);border:1px solid #333;border-radius:6px;color:var(--branco);font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+        .header-btn:hover{border-color:var(--vermelho);background:rgba(196,30,58,0.1)}
+        .header-btn.primary{background:var(--vermelho);border-color:var(--vermelho)}
+        .layout{display:flex;height:calc(100vh - 72px)}
+        .sidebar{width:280px;background:var(--preto2);border-right:1px solid #222;overflow-y:auto;padding:0}
+        .month-filter{padding:20px;border-bottom:1px solid #222;background:var(--preto3)}
+        .month-filter-title{font-size:10px;color:var(--cinza);letter-spacing:2px;margin-bottom:15px;display:flex;align-items:center;gap:8px}
+        .month-filter-title::before{content:'';width:20px;height:2px;background:var(--vermelho)}
+        .month-selector-btn{width:100%;padding:15px 20px;background:linear-gradient(135deg,var(--preto4),var(--preto3));border:2px solid #333;border-radius:12px;color:var(--branco);cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .3s}
+        .month-selector-btn:hover,.month-selector-btn.open{border-color:var(--vermelho)}
+        .month-selector-left{display:flex;align-items:center;gap:15px}
+        .month-selector-num{font-size:28px;font-weight:900;color:var(--vermelho);line-height:1}
+        .month-selector-info h3{font-size:18px;font-weight:700}
+        .month-selector-info span{font-size:11px;color:var(--cinza)}
+        .month-selector-arrow{font-size:12px;color:var(--cinza);transition:transform .3s}
+        .month-selector-btn.open .month-selector-arrow{transform:rotate(180deg)}
+        .month-dropdown{position:absolute;top:100%;left:0;width:100%;background:var(--preto3);border:2px solid var(--vermelho);border-top:none;border-radius:0 0 12px 12px;max-height:0;overflow:hidden;transition:max-height .3s;z-index:50}
+        .month-dropdown.open{max-height:400px;overflow-y:auto}
+        .month-dropdown-item{display:flex;align-items:center;gap:15px;padding:12px 20px;cursor:pointer;transition:all .2s;border-bottom:1px solid #222}
+        .month-dropdown-item:hover{background:rgba(196,30,58,0.1)}
+        .month-dropdown-item.active{background:rgba(196,30,58,0.2)}
+        .month-dropdown-num{font-size:18px;font-weight:900;color:var(--vermelho);width:30px}
+        .month-dropdown-info h4{font-size:13px;font-weight:600}
+        .month-dropdown-info span{font-size:10px;color:var(--cinza)}
+        .month-dropdown-posts{margin-left:auto;background:var(--preto4);padding:4px 10px;border-radius:20px;font-size:10px;color:var(--cinza)}
+        .month-quick-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
+        .month-quick-btn{padding:10px 5px;background:var(--preto4);border:1px solid #333;border-radius:8px;color:var(--cinza);font-size:10px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
+        .month-quick-btn:hover{border-color:var(--vermelho);color:var(--branco)}
+        .month-quick-btn.active{background:var(--vermelho);border-color:var(--vermelho);color:var(--branco)}
+        .sidebar-info{padding:20px}
+        .sidebar-info-title{font-size:10px;color:var(--cinza);letter-spacing:2px;margin-bottom:15px;display:flex;align-items:center;gap:8px}
+        .sidebar-info-title::before{content:'';width:20px;height:2px;background:var(--dourado)}
+        .month-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+        .month-stat-card{background:var(--preto3);border:1px solid #222;border-radius:10px;padding:15px;text-align:center}
+        .month-stat-value{font-size:28px;font-weight:900;color:var(--vermelho)}
+        .month-stat-label{font-size:9px;color:var(--cinza);text-transform:uppercase;letter-spacing:1px}
+        .month-theme-card{background:linear-gradient(135deg,rgba(196,30,58,0.1),var(--preto3));border:1px solid #333;border-radius:12px;padding:20px}
+        .month-theme-label{font-size:9px;color:var(--vermelho);letter-spacing:2px;margin-bottom:8px}
+        .month-theme-title{font-size:22px;font-weight:900;margin-bottom:10px}
+        .month-theme-desc{font-size:12px;color:var(--cinza);line-height:1.6}
+        .month-selector{position:relative;width:100%}
+        .main{flex:1;overflow-y:auto;padding:25px 30px}
+        .main-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid #222}
+        .main-title{font-size:28px;font-weight:900;letter-spacing:2px}
+        .main-title span{color:var(--vermelho)}
+        .posts-list{display:flex;flex-direction:column;gap:12px}
+        .post-card{display:flex;align-items:center;gap:20px;padding:18px 20px;background:var(--preto2);border:1px solid #222;border-radius:12px;cursor:pointer;transition:all .25s}
+        .post-card:hover{border-color:var(--vermelho);transform:translateX(8px);box-shadow:0 5px 30px rgba(196,30,58,0.15)}
+        .post-date{background:var(--preto3);border-radius:8px;padding:10px 12px;text-align:center;min-width:55px}
+        .post-date-day{font-size:22px;font-weight:900;color:var(--vermelho)}
+        .post-date-month{font-size:9px;color:var(--cinza);text-transform:uppercase}
+        .post-info{flex:1}
+        .post-type{font-size:10px;color:var(--dourado);font-weight:700;letter-spacing:1px;margin-bottom:5px}
+        .post-title{font-weight:600;font-size:15px;margin-bottom:4px}
+        .post-desc{font-size:12px;color:var(--cinza)}
+        .post-format{background:var(--preto3);padding:6px 12px;border-radius:6px;font-size:10px;color:var(--cinza)}
+        .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:1000;overflow-y:auto;backdrop-filter:blur(10px)}
+        .modal-overlay.show{display:block}
+        .modal{max-width:1000px;margin:20px auto;background:var(--preto2);border-radius:16px;border:1px solid #333;overflow:hidden}
+        .modal-header{padding:25px 30px;background:linear-gradient(135deg,var(--preto3),var(--preto2));border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:flex-start}
+        .modal-header-left{flex:1}
+        .modal-badge{display:inline-block;padding:4px 12px;background:rgba(196,30,58,0.2);border:1px solid var(--vermelho);border-radius:20px;font-size:10px;color:var(--vermelho);font-weight:700;letter-spacing:1px;margin-bottom:12px}
+        .modal-title-row{display:flex;align-items:center;gap:15px;margin-bottom:8px;flex-wrap:wrap}
+        .modal-date-input{background:var(--preto3);border:1px solid #444;border-radius:6px;padding:8px 12px;color:var(--branco);font-size:14px;width:140px}
+        .modal-title-input{flex:1;min-width:200px;background:transparent;border:none;border-bottom:2px solid #333;color:var(--branco);font-size:18px;font-weight:700;padding:5px 0}
+        .modal-title-input:focus{outline:none;border-bottom-color:var(--vermelho)}
+        .modal-desc{font-size:13px;color:var(--cinza)}
+        .modal-close{width:40px;height:40px;background:var(--preto3);border:1px solid #444;border-radius:50%;color:#fff;font-size:18px;cursor:pointer;transition:all .2s}
+        .modal-close:hover{border-color:var(--vermelho);color:var(--vermelho);transform:rotate(90deg)}
+        .modal-tabs{display:flex;background:var(--preto3);border-bottom:1px solid #333;flex-wrap:wrap}
+        .modal-tab{flex:1;min-width:120px;padding:15px 10px;background:transparent;border:none;color:var(--cinza);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;border-bottom:3px solid transparent}
+        .modal-tab:hover{color:var(--branco);background:rgba(255,255,255,0.03)}
+        .modal-tab.active{color:var(--vermelho);border-bottom-color:var(--vermelho);background:rgba(196,30,58,0.05)}
+        .modal-tab-icon{font-size:14px}
+        .modal-body{padding:25px 30px;max-height:60vh;overflow-y:auto}
+        .content-section{margin-bottom:20px;background:var(--preto3);border-radius:12px;overflow:hidden}
+        .section-header{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--preto4);border-bottom:1px solid #333}
+        .section-title{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1px}
+        .section-icon{font-size:14px}
+        .section-title.narrativa{color:var(--azul)}
+        .section-title.imagem{color:var(--roxo)}
+        .section-title.video{color:var(--laranja)}
+        .section-title.legenda{color:var(--verde)}
+        .section-title.tela{color:var(--dourado)}
+        .copy-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;background:var(--preto2);border:1px solid #444;border-radius:6px;color:var(--branco);font-size:10px;font-weight:600;cursor:pointer;transition:all .2s}
+        .copy-btn:hover{background:var(--vermelho);border-color:var(--vermelho)}
+        .copy-btn.copied{background:var(--verde);border-color:var(--verde)}
+        .section-body{padding:18px}
+        .content-text{font-size:13px;line-height:1.8;white-space:pre-wrap;color:#ddd;font-family:'Courier New',monospace;background:var(--preto);padding:15px;border-radius:8px;max-height:300px;overflow-y:auto}
+        .toast{position:fixed;bottom:30px;right:30px;padding:15px 25px;background:var(--verde);color:#fff;border-radius:10px;font-weight:600;font-size:13px;transform:translateY(100px);opacity:0;transition:all .3s;z-index:2000;display:flex;align-items:center;gap:10px;box-shadow:0 10px 40px rgba(34,197,94,0.3)}
+        .toast.show{transform:translateY(0);opacity:1}
+        .empty-state{text-align:center;padding:80px 40px;color:var(--cinza)}
+        .empty-state h3{font-size:20px;margin-bottom:10px;color:var(--cinza2)}
+        .backup-info{padding:15px;background:var(--preto3);border-radius:8px;margin-top:15px;font-size:11px;color:var(--cinza)}
+        .backup-info strong{color:var(--verde)}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:var(--preto2)}
+        ::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+        ::-webkit-scrollbar-thumb:hover{background:var(--vermelho)}
+        @media(max-width:768px){.sidebar{display:none}.layout{flex-direction:column}.main{padding:15px}}
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <div class="logo-icon">M</div>
+        <div>
+            <div class="logo-text">MANCHESTER</div>
+            <div class="logo-sub">Content Studio 2026</div>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button class="header-btn" onclick="exportData()">💾 Backup</button>
+        <button class="header-btn" onclick="document.getElementById('importFile').click()">📂 Importar</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        <button class="header-btn primary" onclick="saveToStorage()">✓ Salvar</button>
+    </div>
+</header>
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="month-filter">
+            <div class="month-filter-title">SELECIONAR MÊS</div>
+            <div class="month-selector">
+                <button class="month-selector-btn" id="monthSelectorBtn" onclick="toggleDropdown()">
+                    <div class="month-selector-left">
+                        <div class="month-selector-num" id="selectorNum">01</div>
+                        <div class="month-selector-info">
+                            <h3 id="selectorName">Janeiro</h3>
+                            <span id="selectorTheme">Planejamento</span>
+                        </div>
+                    </div>
+                    <div class="month-selector-arrow">▼</div>
+                </button>
+                <div class="month-dropdown" id="monthDropdown"></div>
+            </div>
+            <div class="month-quick-nav" id="monthQuickNav"></div>
+        </div>
+        <div class="sidebar-info">
+            <div class="sidebar-info-title">VISÃO GERAL</div>
+            <div class="month-stats">
+                <div class="month-stat-card">
+                    <div class="month-stat-value" id="statPosts">13</div>
+                    <div class="month-stat-label">Posts</div>
+                </div>
+                <div class="month-stat-card">
+                    <div class="month-stat-value" id="statStories">3</div>
+                    <div class="month-stat-label">Stories</div>
+                </div>
+            </div>
+            <div class="month-theme-card">
+                <div class="month-theme-label">TEMA DO MÊS</div>
+                <div class="month-theme-title" id="themeTitle">Planejamento</div>
+                <div class="month-theme-desc" id="themeDesc">Foco em organização e preparação para o ano.</div>
+            </div>
+            <div class="backup-info">
+                <strong>✓ Auto-save ativo</strong><br>
+                Dados salvos em localStorage.<br>
+                Use "Backup" para exportar JSON.
+            </div>
+        </div>
+    </aside>
+    
+    <main class="main">
+        <div class="main-header">
+            <h1 class="main-title" id="mainTitle">JANEIRO — <span>Planejamento</span></h1>
+        </div>
+        <div class="posts-list" id="postsList"></div>
+    </main>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-header-left">
+                <div class="modal-badge" id="modalBadge">POST #01</div>
+                <div class="modal-title-row">
+                    <input type="date" class="modal-date-input" id="modalDate" onchange="updatePostDate()">
+                    <input type="text" class="modal-title-input" id="modalTitle" placeholder="Título..." onchange="updatePostTitle()">
+                </div>
+                <div class="modal-desc" id="modalDesc">Descrição</div>
+            </div>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-tabs">
+            <button class="modal-tab active" data-tab="narrativa" onclick="switchTab('narrativa')"><span class="modal-tab-icon">📝</span> NARRATIVA</button>
+            <button class="modal-tab" data-tab="imagem" onclick="switchTab('imagem')"><span class="modal-tab-icon">🖼️</span> PROMPT IMAGEM</button>
+            <button class="modal-tab" data-tab="video" onclick="switchTab('video')"><span class="modal-tab-icon">🎬</span> PROMPT VÍDEO</button>
+            <button class="modal-tab" data-tab="tela" onclick="switchTab('tela')"><span class="modal-tab-icon">📺</span> TEXTO TELA</button>
+            <button class="modal-tab" data-tab="legenda" onclick="switchTab('legenda')"><span class="modal-tab-icon">📱</span> LEGENDA</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast">✓ Copiado!</div>
+
+<script>
+// ============== DATABASE COMPLETO ==============
+const MONTHS_DATA = [
+    {id:1,name:'Janeiro',theme:'Planejamento e Organização',shortTheme:'Planejamento',posts:13,stories:3,desc:'Foco em organização de obras, compra de materiais e preparação para o ano.'},
+    {id:2,name:'Fevereiro',theme:'Carnaval & Alta Demanda',shortTheme:'Carnaval',posts:16,stories:4,desc:'Comunicação do recesso, urgência pré-Carnaval e retomada forte.'},
+    {id:3,name:'Março',theme:'Mulheres na Construção',shortTheme:'Mulheres',posts:12,stories:0,desc:'Celebração do Dia da Mulher e destaque para profissionais femininas.'},
+    {id:4,name:'Abril',theme:'Mês Nacional do Aço',shortTheme:'Mês do Aço',posts:13,stories:6,desc:'Dia Nacional do Aço (09/04), Sexta Santa, Tiradentes.'},
+    {id:5,name:'Maio',theme:'Indústria e Produtividade',shortTheme:'Indústria',posts:13,stories:3,desc:'Dia da Indústria, Dia do Trabalho, processos produtivos.'},
+    {id:6,name:'Junho',theme:'Sustentabilidade',shortTheme:'Sustentável',posts:12,stories:3,desc:'Meio ambiente, Corpus Christi, reciclagem de aço.'},
+    {id:7,name:'Julho',theme:'Construção Civil',shortTheme:'Construção',posts:13,stories:0,desc:'Técnicas construtivas, inovações e tendências.'},
+    {id:8,name:'Agosto',theme:'Mês do Soldador',shortTheme:'Soldador',posts:13,stories:0,desc:'Dia do Soldador (25/08), homenagens e técnicas.'},
+    {id:9,name:'Setembro',theme:'Setembro Amarelo',shortTheme:'Set. Amarelo',posts:13,stories:3,desc:'Saúde mental, Independência do Brasil.'},
+    {id:10,name:'Outubro',theme:'Outubro Rosa',shortTheme:'Out. Rosa',posts:13,stories:3,desc:'Nossa Senhora Aparecida, conscientização.'},
+    {id:11,name:'Novembro',theme:'Black Friday',shortTheme:'Black Friday',posts:13,stories:6,desc:'Promoções, Finados, Consciência Negra.'},
+    {id:12,name:'Dezembro',theme:'Retrospectiva',shortTheme:'Retrospectiva',posts:13,stories:5,desc:'Balanço do ano, Natal, Ano Novo.'}
+];
+
+// POSTS JANEIRO COMPLETO
+const INITIAL_POSTS = {
+1: [
+{id:1,date:'2026-01-01',type:'DATA ESPECIAL',format:'Carrossel 5 slides',title:'🎆 Feliz 2026! O ano de construir grandes projetos',desc:'Mensagem de ano novo + retrospectiva Manchester',
+narrativa:`SLIDE 1 — CAPA (IMPACTO)
+═══════════════════════════════════════
+TEXTO PRINCIPAL:
+"2026 CHEGOU!"
+
+SUBTEXTO:
+"E com ele, novas fundações."
+
+INSTRUÇÃO VISUAL:
+Texto centralizado sobre fundo dramático com fogos de artifício dourados. Silhueta de obras ao fundo. Logo Manchester pequeno no canto inferior.
+
+SLIDE 2 — RETROSPECTIVA
+═══════════════════════════════════════
+TEXTO:
+"Em 2025, entregamos mais de 500 toneladas de aço."
+"Para obras em todo Rio de Janeiro e Minas Gerais."
+
+NÚMEROS EM DESTAQUE:
+• 500+ toneladas
+• 200+ obras atendidas
+• 30+ anos de mercado
+
+INSTRUÇÃO VISUAL:
+Números grandes em vermelho Manchester. Fotos de obras reais ao fundo em grade.
+
+SLIDE 3 — AGRADECIMENTO
+═══════════════════════════════════════
+TEXTO:
+"Obrigado a cada engenheiro, construtora e parceiro."
+"Vocês fazem a Manchester existir."
+
+INSTRUÇÃO VISUAL:
+Colagem de fotos: engenheiros, obras, equipe Manchester. Tom emocional, golden hour.
+
+SLIDE 4 — COMPROMISSO 2026
+═══════════════════════════════════════
+TEXTO:
+"Em 2026, seguimos com o mesmo compromisso:"
+
+CHECKLIST:
+✓ Qualidade certificada
+✓ Prazo respeitado
+✓ Preço justo
+
+INSTRUÇÃO VISUAL:
+Fundo vermelho gradiente. Ícones brancos ao lado de cada item.
+
+SLIDE 5 — CTA
+═══════════════════════════════════════
+TEXTO:
+"Bora construir juntos?"
+"Qual é seu maior projeto para 2026?"
+
+CTA:
+"Comenta aqui 👇"
+
+INSTRUÇÃO VISUAL:
+Fundo preto com logo Manchester grande. Texto dourado.`,
+imagem:`PROMPT SLIDE 1 — CAPA (MIDJOURNEY/DALL-E)
+═══════════════════════════════════════════════════════════════
+
+Ultra-realistic commercial photography of New Year 2026 celebration for steel/construction company.
+
+COMPOSITION:
+- Golden fireworks exploding in dark night sky
+- Silhouette of buildings under construction in background
+- Steel bars subtly forming "2026" number
+- Manchester logo positioned bottom-right corner
+- Negative space for text overlay in upper third
+
+COLOR PALETTE:
+- Primary: Deep red (#C41E3A)
+- Secondary: Black (#0a0a0a)
+- Accent: Gold (#C9A227)
+- Highlights: White sparks
+
+CAMERA SPECIFICATIONS:
+- Shot on Sony A7R IV, 35mm f/1.8 lens
+- Wide angle capturing full skyline
+- Shallow depth of field on fireworks
+- ISO 800, 1/250s shutter speed
+
+LIGHTING:
+- Natural firework illumination as key light
+- Dramatic rim light on building silhouettes
+- Golden hour warmth mixed with night sky
+- No artificial studio lighting
+
+STYLE & MOOD:
+- Cinematic, epic, celebratory
+- Premium corporate aesthetic
+- Inspirational and forward-looking
+- Professional advertising quality
+
+TECHNICAL REQUIREMENTS:
+- 1:1 aspect ratio for Instagram feed
+- Minimum 2048x2048 pixels
+- Clean edges for text overlay
+- No watermarks or artifacts
+
+MUST AVOID:
+- Generic stock photo appearance
+- Clipart or illustration elements
+- Overcrowded composition
+- Visible people or faces
+- Competing focal points
+
+═══════════════════════════════════════════════════════════════
+
+PROMPT SLIDE 2 — RETROSPECTIVA (INFOGRÁFICO)
+═══════════════════════════════════════════════════════════════
+
+Clean infographic-style commercial image for construction company retrospective.
+
+COMPOSITION:
+- Dark background with subtle geometric grid pattern
+- Large numbers "500+" prominently displayed in bold red
+- Secondary statistics arranged in clear visual hierarchy
+- Small construction photos in rounded rectangular frames
+- Ample white space for readability
+
+TYPOGRAPHY GUIDELINES:
+- Main numbers: Bold sans-serif (Bebas Neue style), 72pt equivalent
+- Body text: Clean sans-serif (Inter style), white
+- High contrast between text and background
+
+LAYOUT STRUCTURE:
+- Numbers occupy 60% of visual weight
+- Supporting text aligned left
+- Photo elements positioned right side
+- Bottom third reserved for Manchester branding
+
+COLOR PALETTE:
+- Background: #0a0a0a to #1a1a1a gradient
+- Primary text: White (#ffffff)
+- Accent numbers: Red (#C41E3A)
+- Subtle highlights: Gold (#C9A227)
+
+STYLE:
+- Modern corporate infographic
+- Data visualization aesthetic
+- Professional and trustworthy
+- Clean, minimal, impactful
+- 1:1 aspect ratio for Instagram
+
+═══════════════════════════════════════════════════════════════
+
+PROMPT SLIDE 3 — AGRADECIMENTO (EMOCIONAL)
+═══════════════════════════════════════════════════════════════
+
+Emotional collage photography celebrating construction professionals.
+
+COMPOSITION:
+- Grid layout of 4-6 candid professional photographs
+- Engineers, construction workers, team members
+- All shots captured in golden hour lighting
+- Warm, human, authentic emotional feeling
+- Subtle overlay connecting all images
+
+SUBJECTS TO INCLUDE:
+- Engineer analyzing tablet on construction site
+- Construction workers smiling during break
+- Professional handshake between partners
+- Team photo at completed project site
+- Close-up of hands working with blueprints
+
+MOOD & EMOTION:
+- Gratitude, pride, partnership
+- Warm emotional connection
+- Professional but deeply human
+- Celebratory achievement feeling
+
+LIGHTING REQUIREMENTS:
+- Golden hour throughout all images
+- Soft, flattering, warm light
+- Natural outdoor settings
+- Backlit rim effects on subjects
+
+COLOR GRADING:
+- Warm orange/gold dominant tones
+- Slight vintage film look
+- Unified color palette across all photos
+- Desaturated shadows, warm highlights
+
+STYLE:
+- Documentary photography approach
+- Authentic, not staged or posed
+- Editorial magazine quality
+- 1:1 aspect ratio for Instagram`,
+video:`DIREÇÃO DE VÍDEO — 15 SEGUNDOS COMPLETO
+═══════════════════════════════════════════════════════════════
+
+Ultra-realistic cinematic video for New Year 2026 construction company celebration.
+
+═══ TAKE 1 (0:00-0:03) — ABERTURA ÉPICA ═══
+
+VISUAL:
+- Drone shot rising slowly over construction site at dawn
+- Golden sunlight breaking over steel structures
+- Text "2026" fades in with metallic chrome texture
+- Dust particles floating in light beams
+
+CAMERA MOVEMENT:
+- Slow push-up combined with slight tilt down
+- Smooth gimbal stabilized movement
+- Speed: 15% slower than real-time (slight slow-mo)
+- Start wide, end medium-wide
+
+LIGHTING:
+- Golden hour, sun positioned at horizon line
+- Lens flare permitted and encouraged
+- Warm color temperature (5500K)
+- High dynamic range preserved
+
+SOUND DESIGN:
+- Epic orchestral swell building
+- Subtle construction site ambience underneath
+- Metallic shimmer on text reveal
+- Bass drop on "2026" appearance
+
+═══ TAKE 2 (0:03-0:08) — MONTAGEM DINÂMICA ═══
+
+VISUAL SEQUENCE:
+1. (0.8s) Sparks flying from welding - close-up
+2. (0.8s) CNC machine cutting steel - slow motion
+3. (1.0s) Manchester truck driving - tracking shot
+4. (1.2s) Steel framework being positioned by crane
+5. (0.7s) Worker giving thumbs up - medium shot
+
+CAMERA SPECIFICATIONS:
+- Mix of angles: close-up, medium, wide
+- All shots professionally stabilized
+- Consistent color grading throughout
+- 24fps with 180° shutter for cinema look
+
+TRANSITIONS:
+- Quick cuts synchronized to music beat
+- No fancy transitions (cuts only)
+- Each shot holds just long enough to register
+- Rhythm builds energy
+
+SOUND DESIGN:
+- Industrial sounds synced precisely to cuts
+- Music intensity builds throughout
+- Metallic impacts on each cut
+- Rising tension in audio
+
+═══ TAKE 3 (0:08-0:12) — EQUIPE HUMANA ═══
+
+VISUAL:
+- Slow motion montage of team members smiling
+- Multiple diverse workers represented
+- Pride and satisfaction visible in expressions
+- Natural, candid moments captured
+
+CAMERA:
+- 50mm portrait lens aesthetic
+- Shallow depth of field (f/1.8)
+- Slight slow push-in on each face
+- Eye-level, intimate framing
+
+LIGHTING:
+- Soft, flattering continuation of golden hour
+- Rim light separating subjects from background
+- Natural fill from environment
+
+TEXT OVERLAY:
+"OBRIGADO POR CONSTRUIR COM A GENTE"
+- Fade in smoothly, center screen
+- White text with subtle drop shadow
+- Hold for 2 seconds minimum
+
+═══ TAKE 4 (0:12-0:15) — FECHAMENTO PODEROSO ═══
+
+VISUAL:
+- Manchester logo reveal animation
+- Metallic/chrome texture on logo
+- Subtle gold particle effects rising
+- Clean black background
+
+CAMERA:
+- Static, perfectly centered
+- Logo fills 60% of frame
+- No movement (stability = confidence)
+
+TEXT:
+"2026 — Construindo o futuro"
+- Fade in below logo
+- Gold color (#C9A227)
+- Elegant serif or sans-serif font
+
+SOUND:
+- Music resolves to satisfying conclusion
+- Subtle whoosh on logo reveal
+- Final note holds and fades
+
+═══ CONSISTÊNCIA OBRIGATÓRIA ═══
+- Maintain exact color grading throughout entire video
+- No smoke effects, no vapor effects
+- All shots must feel connected as one story
+- Premium commercial advertising aesthetic
+- Export: 1080x1080 for Instagram, 1080x1920 for Stories`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1:
+"2026 CHEGOU!"
+"E com ele, novas fundações."
+
+SLIDE 2:
+"500+ toneladas entregues"
+"200+ obras atendidas"
+"30+ anos de mercado"
+
+SLIDE 3:
+"OBRIGADO"
+"A cada engenheiro, construtora e parceiro"
+
+SLIDE 4:
+"Nosso compromisso:"
+"✓ Qualidade certificada"
+"✓ Prazo respeitado"
+"✓ Preço justo"
+
+SLIDE 5:
+"Bora construir juntos?"
+"Qual é seu maior projeto para 2026?"
+"Comenta aqui 👇"`,
+legenda:`🎆 FELIZ 2026!
+
+Mais um ano começa e com ele a certeza de que vamos continuar construindo juntos.
+
+Em 2025, entregamos mais de 500 toneladas de aço para obras por todo Rio de Janeiro e Minas Gerais.
+
+Cada barra cortada. Cada armadura montada. Cada entrega no prazo.
+
+Obrigado a cada engenheiro, arquiteto, mestre de obras e parceiro que confiou na Manchester.
+
+Em 2026, seguimos firmes:
+✅ Mesmo compromisso com qualidade
+✅ Mesmo foco em prazo
+✅ Mesmo preço justo
+
+E você? Qual é o seu maior projeto para 2026?
+
+Conta pra gente nos comentários! 👇
+
+📞 (21) 3214-1300
+📱 WhatsApp na bio
+
+#Manchester #AnoNovo2026 #ConstruçãoCivil #FelizAnoNovo #Aço #Engenharia #RioDeJaneiro #MinasGerais #Construção #ObraNovaAnoNovo #MetasConstrução`},
+
+{id:2,date:'2026-01-05',type:'PROBLEMA → SOLUÇÃO',format:'Reels 30s',title:'😤 "Comprei aço e veio com medida errada"',desc:'Problema comum de obra resolvido com conferência Manchester',
+narrativa:`ROTEIRO REELS 30 SEGUNDOS
+═══════════════════════════════════════
+
+[0:00-0:03] HOOK — CAPTURA ATENÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ÁUDIO/NARRAÇÃO:
+"Cara, o aço chegou errado. Minha obra parou."
+
+TEXTO NA TELA:
+"ISSO JÁ ACONTECEU COM VOCÊ?"
+
+INSTRUÇÃO:
+Close no rosto do engenheiro frustrado ao telefone. 
+Expressão muda de neutro para choque.
+Ambiente de escritório de obra/trailer.
+
+[0:03-0:10] PROBLEMA — DOR DO CLIENTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NARRAÇÃO:
+"Pediu 10mm, veio 8mm. Pediu 6 metros, veio 5.80."
+
+TEXTO NA TELA:
+"2 SEMANAS PERDIDAS"
+"R$ MILHARES EM PREJUÍZO"
+
+INSTRUÇÃO:
+B-roll do canteiro de obras parado.
+Materiais errados empilhados.
+Trabalhadores esperando sem fazer nada.
+Tom: urgência, frustração, prejuízo real.
+
+[0:10-0:13] TRANSIÇÃO — VIRADA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA:
+"E SE EXISTISSE UMA FORMA DE EVITAR ISSO?"
+
+INSTRUÇÃO:
+Tela escurece gradualmente.
+Texto surge letra por letra (typewriter effect).
+Pausa dramática de 1 segundo.
+Som: silêncio + heartbeat sutil crescendo.
+
+[0:13-0:23] SOLUÇÃO — MANCHESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NARRAÇÃO:
+"Na Manchester, antes de cortar uma barra sequer, 
+nossa equipe confere seu projeto inteiro. 
+Medida por medida. Bitola por bitola."
+
+TEXTO NA TELA:
+"CONFERÊNCIA → CORTE PRECISO → ENTREGA CERTA"
+
+INSTRUÇÃO VISUAL:
+Sequência rápida mostrando:
+1. Técnico analisando projeto no computador (2s)
+2. CNC cortando com precisão, faíscas (3s)
+3. Peças sendo etiquetadas individualmente (2s)
+4. Caminhão Manchester carregando (2s)
+
+Tom: confiança, solução, profissionalismo.
+Música: transição para beat positivo/confiante.
+
+[0:23-0:30] RESULTADO + CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NARRAÇÃO:
+"Zero erro. Zero atraso. Zero dor de cabeça."
+
+TEXTO NA TELA:
+"ZERO ERRO. ZERO ATRASO."
+
+CTA FINAL:
+Logo Manchester + "(21) 3214-1300"
+"Solicite seu orçamento"
+
+INSTRUÇÃO:
+Obra organizada, engenheiro satisfeito conferindo material.
+Sorriso de alívio/satisfação.
+Tom: resolução positiva, final feliz.`,
+imagem:`PROMPT THUMBNAIL/CAPA REELS
+═══════════════════════════════════════════════════════════════
+
+Split comparison image showing dramatic BEFORE vs AFTER for construction steel delivery.
+
+COMPOSITION:
+- Vertical split directly down the middle of frame
+- Left side: PROBLEM scenario (before Manchester)
+- Right side: SOLUTION scenario (after Manchester)
+- Bold red diagonal line separating both sides
+- Manchester logo centered on the dividing line
+- Text overlays on each side
+
+LEFT SIDE (PROBLEM):
+- Messy, chaotic construction site
+- Steel bars scattered incorrectly, wrong sizes visible
+- Frustrated engineer checking papers with confused expression
+- Color grading: cold, desaturated, blue/grey tint
+- Harsh shadows, unflattering lighting
+- Text overlay: "MEDIDA ERRADA" in red
+
+RIGHT SIDE (SOLUTION):
+- Clean, organized construction site
+- Steel bars properly arranged with visible labels/tags
+- Satisfied engineer giving thumbs up or checking tablet
+- Color grading: warm, vibrant, golden tint
+- Soft, professional lighting
+- Text overlay: "MEDIDA CERTA" in green
+
+CAMERA SPECIFICATIONS:
+- Wide angle to capture full scene comparison
+- Identical angle on both sides for fair comparison
+- Professional commercial photography quality
+- Sharp focus throughout
+
+LIGHTING CONTRAST:
+- Left: Overcast, flat, uninspiring, industrial
+- Right: Golden hour, warm, inviting, professional
+
+STYLE:
+- Before/after transformation format
+- High contrast between both sides
+- Professional commercial advertising aesthetic
+- 9:16 aspect ratio optimized for Reels cover
+
+TECHNICAL:
+- 1080x1920 pixels minimum
+- Clean edges for platform cropping
+- No text in safe zones that might be cut`,
+video:`DIREÇÃO COMPLETA — REELS 30 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+Ultra-realistic commercial video showing problem-solution narrative for steel distribution company.
+
+═══ CENA 1 — HOOK (0:00-0:03) ═══
+
+VISUAL:
+- Extreme close-up on engineer's face
+- Phone pressed firmly to ear
+- Expression transitions from neutral to visible shock
+- Setting: construction office/trailer interior
+
+CAMERA SPECIFICATIONS:
+- 85mm portrait lens aesthetic
+- Shallow depth of field, background completely blurred
+- Slight slow push-in (dolly forward)
+- Handheld micro-movement for documentary realism
+- Eye-level framing
+
+LIGHTING:
+- Natural window light from camera left
+- Soft fill from right side
+- Realistic office/trailer lighting
+- Slight warmth in color temperature
+
+SOUND DESIGN:
+- Muffled phone conversation audio
+- Clear voice: "O aço chegou errado!"
+- Dramatic musical hit on reaction
+- Brief silence after shock
+
+ACTING DIRECTION:
+- Start neutral, professional
+- Slight confusion as information registers
+- Clear moment of realization/shock
+- Hold reaction for full impact
+
+═══ CENA 2 — PROBLEMA (0:03-0:10) ═══
+
+VISUAL SEQUENCE:
+Shot 1 (2s): Drone descending over idle construction site
+Shot 2 (1.5s): Close-up of steel bars with wrong measurements
+Shot 3 (1.5s): Workers standing around waiting, doing nothing
+Shot 4 (2s): Calendar pages flipping showing days passing
+
+CAMERA WORK:
+- Drone: Slow descending reveal shot
+- Ground shots: Steadicam or gimbal movement
+- Close-ups: Macro lens on measurement tape showing wrong numbers
+- Calendar: Time-lapse or animation effect
+
+COLOR GRADING:
+- Heavily desaturated, cold color tones
+- Blue/grey color cast throughout
+- Low contrast, flat, depressing look
+- Shadows pushed to black
+
+SOUND DESIGN:
+- Tense, building music underneath
+- Construction site ambience (quiet, idle, waiting)
+- Clock ticking sound effect
+- Subtle heartbeat building tension
+
+MOOD:
+- Frustration, loss, waste
+- Visual representation of money burning
+- Time slipping away feeling
+
+═══ CENA 3 — TRANSIÇÃO (0:10-0:13) ═══
+
+VISUAL:
+- Screen fades to solid black
+- Text types on character by character
+- "E SE DESSE PRA EVITAR?"
+- Brief pause on completed text
+- Slight glow/pulse on text
+
+CAMERA:
+- Static frame
+- Clean, professional typography
+- Centered composition
+
+TYPOGRAPHY:
+- Sans-serif, bold weight
+- White text on black
+- Typewriter animation effect
+- 1-2 second hold after complete
+
+SOUND DESIGN:
+- All music drops completely out
+- Single heartbeat sound
+- Key click sounds on each letter
+- Silence builds anticipation and tension
+
+═══ CENA 4 — SOLUÇÃO MANCHESTER (0:13-0:23) ═══
+
+VISUAL SEQUENCE:
+Shot 1 (2s): Computer screen showing project analysis software
+Shot 2 (2s): Technician carefully reviewing blueprints
+Shot 3 (3s): CNC machine cutting steel with precision (slow-mo sparks)
+Shot 4 (2s): Labeling machine applying identification tags
+Shot 5 (2s): Organized steel bundles ready for delivery
+
+CAMERA:
+- Professional mix of angles
+- All shots smooth and stabilized
+- Consistent framing style throughout
+- Motion matches positive energy
+
+COLOR GRADING:
+- Warm, vibrant, saturated tones
+- High contrast, punchy look
+- Professional commercial color
+- Golden highlights
+
+SOUND DESIGN:
+- Uplifting music builds throughout
+- Industrial sounds (satisfying cuts, machine precision)
+- Text whoosh effects
+- Building to crescendo
+
+MOOD:
+- Confidence, precision, professionalism
+- Problem being actively solved
+- Competence and expertise
+
+═══ CENA 5 — RESULTADO (0:23-0:30) ═══
+
+VISUAL:
+- Wide shot: beautifully organized construction site
+- Medium: engineer checking delivered material, visibly satisfied
+- Close: Manchester logo on professional packaging
+- End frame: Logo + contact information
+
+CAMERA:
+- Dolly/slider shot across organized materials
+- Rack focus to logo on packaging
+- Final static logo shot, perfectly centered
+
+TEXT OVERLAY:
+"ZERO ERRO. ZERO ATRASO."
+- Bold, confident typography
+- Fade in with slight scale animation
+- Manchester logo and phone number
+
+SOUND:
+- Music resolves to satisfying, confident conclusion
+- Subtle "success" chime sound effect
+- Logo reveal whoosh
+
+═══ CONSISTÊNCIA E REGRAS ═══
+- Maintain color grading continuity throughout
+- All transitions are clean cuts, no fancy effects
+- Professional commercial pacing
+- No smoke, vapor, or unrealistic effects
+- Realistic construction environments only
+- Export 1080x1920 for Reels, 1080x1080 for feed`,
+tela:`TEXTO NA TELA — REELS 30s
+═══════════════════════════════════════
+
+[0:00-0:03]
+"ISSO JÁ ACONTECEU COM VOCÊ?"
+
+[0:03-0:10]
+"2 SEMANAS PERDIDAS"
+"R$ MILHARES EM PREJUÍZO"
+
+[0:10-0:13]
+"E SE EXISTISSE UMA FORMA DE EVITAR ISSO?"
+
+[0:13-0:23]
+"CONFERÊNCIA → CORTE PRECISO → ENTREGA CERTA"
+
+[0:23-0:30]
+"ZERO ERRO. ZERO ATRASO."
+"(21) 3214-1300"`,
+legenda:`😤 "O aço chegou errado. Minha obra parou."
+
+Quantas vezes você já ouviu isso?
+Ou pior: quantas vezes você VIVEU isso?
+
+Pediu 10mm, veio 8mm.
+Pediu 6 metros, veio 5.80.
+Especificou CA-50, veio CA-60.
+
+Resultado?
+⏱️ 2 semanas de obra parada
+💸 Milhares em prejuízo
+😤 Estresse desnecessário
+
+Na Manchester é diferente.
+
+Antes de cortar UMA barra sequer, nossa equipe:
+✅ Confere seu projeto inteiro
+✅ Valida medida por medida
+✅ Verifica bitola por bitola
+✅ Identifica cada peça com etiqueta
+
+Zero erro. Zero atraso. Zero dor de cabeça.
+
+Já passou por isso? Conta sua história 👇
+
+📞 (21) 3214-1300
+📱 WhatsApp na bio
+
+#Manchester #ConstruçãoCivil #BelgoPronto #Engenharia #ObraParada #SoluçãoReal #AçoCorteDobra #RioDeJaneiro`},
+
+{id:3,date:'2026-01-07',type:'EDUCATIVO',format:'Carrossel 8 slides',title:'📋 Checklist: Como planejar a compra de aço para 2026',desc:'5 passos essenciais para não errar na compra de aço',
+narrativa:`CARROSSEL 8 SLIDES — CHECKLIST COMPRA DE AÇO
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TÍTULO:
+"CHECKLIST 2026"
+
+SUBTÍTULO:
+"Como planejar a compra de aço sem erro"
+
+VISUAL:
+Ícone de checklist estilizado (clipboard com checks).
+Fundo gradiente vermelho (#C41E3A) para preto (#0a0a0a).
+Badge no canto: "SALVA ESSE POST 📌"
+Logo Manchester discreto no canto inferior.
+
+SLIDE 2 — PASSO 1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📐 REVISAR O PROJETO ESTRUTURAL
+
+TEXTO PRINCIPAL:
+"Projeto atualizado? Última revisão aprovada?
+Confira com o projetista antes de pedir orçamento."
+
+DICA DESTAQUE:
+💡 "Peça sempre o arquivo digital (.dwg) atualizado"
+
+VISUAL:
+Ícone de planta/blueprint.
+Fundo escuro com linha vermelha na lateral esquerda.
+Número "01" grande em vermelho.
+
+SLIDE 3 — PASSO 2
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧮 CALCULAR QUANTITATIVOS
+
+TEXTO PRINCIPAL:
+"Nada de chutar. Use software de cálculo 
+ou peça ao engenheiro projetista."
+
+DICA DESTAQUE:
+💡 "Erro no quantitativo = sobra ou falta de material"
+
+VISUAL:
+Ícone de calculadora.
+Número "02" grande em vermelho.
+
+SLIDE 4 — PASSO 3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 CONSIDERAR PRAZO DE ENTREGA
+
+PRAZOS MÉDIOS MANCHESTER:
+• Corte e dobra: 3-7 dias úteis
+• Armadura pronta: 5-10 dias úteis
+• Telas soldadas: 2-5 dias úteis
+
+DICA DESTAQUE:
+💡 "Sempre peça com antecedência. Urgência sai mais caro."
+
+VISUAL:
+Ícone de calendário.
+Número "03" grande em vermelho.
+
+SLIDE 5 — PASSO 4
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ VERIFICAR NORMAS TÉCNICAS
+
+EXIJA SEMPRE:
+• Conformidade com NBR 7480
+• Certificação de qualidade
+• Laudos de ensaio disponíveis
+
+DICA DESTAQUE:
+💡 "Aço sem certificação = risco estrutural"
+
+VISUAL:
+Ícone de certificado/selo.
+Número "04" grande em vermelho.
+
+SLIDE 6 — PASSO 5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 ALINHAR CRONOGRAMA DE OBRA
+
+PERGUNTAS ESSENCIAIS:
+• Entrega única ou programada?
+• Onde armazenar na obra?
+• Quem vai receber o material?
+
+DICA DESTAQUE:
+💡 "Entregas programadas evitam acúmulo e desperdício"
+
+VISUAL:
+Ícone de sync/setas circulares.
+Número "05" grande em vermelho.
+
+SLIDE 7 — DICA BÔNUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 ANTECIPE A COMPRA
+
+TEXTO PRINCIPAL:
+"Preço do aço varia com o mercado. 
+Fechar antes garante melhor condição."
+
+VANTAGENS:
+• Trava preço atual
+• Garante prazo de entrega
+• Evita imprevistos de estoque
+
+VISUAL:
+Fundo com destaque dourado.
+Ícone de lâmpada/ideia.
+Design diferenciado dos outros slides para destacar.
+
+SLIDE 8 — CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO PRINCIPAL:
+"PRECISA DE AJUDA COM SEU PROJETO?"
+
+SUBTEXTO:
+"A Manchester confere seu projeto gratuitamente."
+
+CONTATO:
+📞 (21) 3214-1300
+📱 WhatsApp na bio
+
+AÇÃO:
+"SALVA ESSE POST! 📌"
+
+VISUAL:
+Fundo vermelho sólido.
+Texto branco, alto contraste.
+Logo Manchester grande.`,
+imagem:`PROMPTS DE IMAGEM — CARROSSEL 8 SLIDES
+═══════════════════════════════════════════════════════════════
+
+PROMPT SLIDE 1 — CAPA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Clean modern infographic cover slide for construction industry checklist.
+
+COMPOSITION:
+- Centered layout with strong visual hierarchy
+- Large checklist icon at top (white outline style on dark)
+- Title "CHECKLIST 2026" in bold, impactful typography
+- Subtitle smaller, lighter weight below
+- Badge "SALVA ESSE POST 📌" in corner
+
+BACKGROUND:
+- Gradient from red (#C41E3A) at top to black (#0a0a0a) at bottom
+- Subtle grid pattern overlay at 10% opacity
+- Clean, no clutter
+
+TYPOGRAPHY:
+- Title: Bold sans-serif (Bebas Neue style), white, extra large
+- Subtitle: Regular sans-serif (Inter style), light grey, smaller
+- High contrast, easy to read at any size
+
+ICON:
+- Clipboard with checkmarks
+- White outline style, minimal
+- Positioned center-top
+
+STYLE:
+- Modern corporate infographic
+- Professional but approachable
+- Instagram-optimized 1:1 aspect ratio
+- Minimum 1080x1080 pixels
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROMPT SLIDES 2-6 — CONTEÚDO (TEMPLATE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Consistent infographic slide design for educational checklist content.
+
+LAYOUT TEMPLATE:
+- Dark background (#0a0a0a to #111111)
+- Step number: Extra large, red (#C41E3A), positioned top-left
+- Icon: White outline style, positioned right of number
+- Title: Bold white text, below number
+- Body text: Light grey (#cccccc), readable size
+- Red accent line on left edge (4px width, full height)
+
+TYPOGRAPHY SPECIFICATIONS:
+- Step number: Bold display font, 72pt equivalent
+- Title: Sans-serif bold, 24pt equivalent
+- Body: Sans-serif regular, 16pt equivalent
+- Tips/highlights: Sans-serif light, 14pt, inside grey box
+
+ICONS FOR EACH SLIDE:
+- Slide 2: Blueprint/document icon (project review)
+- Slide 3: Calculator icon (quantities)
+- Slide 4: Calendar icon (delivery timeline)
+- Slide 5: Certificate/badge icon (quality standards)
+- Slide 6: Sync arrows icon (schedule alignment)
+
+TIP BOX STYLING:
+- Darker background (#1a1a1a)
+- Rounded corners (8px)
+- Lightbulb emoji prefix
+- Slightly smaller text
+
+CONSISTENCY RULES:
+- Identical layout across all content slides
+- Same spacing, margins, typography
+- Easy to read at thumbnail size
+- 1:1 aspect ratio for Instagram
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROMPT SLIDE 7 — DICA BÔNUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Special highlight slide for bonus tip, visually distinct from others.
+
+COMPOSITION:
+- Different visual treatment to stand out
+- Gold (#C9A227) accent color instead of red
+- Lightbulb icon prominently featured
+- "DICA BÔNUS" label at top
+
+BACKGROUND:
+- Dark with gold gradient accent
+- Subtle glow effect behind main content
+- More premium, special feeling
+
+TYPOGRAPHY:
+- "DICA BÔNUS" in gold, smaller label
+- Main tip in white, bold
+- Supporting text in grey
+
+STYLE:
+- Feels like a "secret" or exclusive tip
+- More visual emphasis than standard slides
+- Still maintains brand consistency
+- 1:1 aspect ratio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROMPT SLIDE 8 — CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Strong call-to-action closing slide for maximum engagement.
+
+COMPOSITION:
+- Solid red background (#C41E3A)
+- White text, centered layout
+- Manchester logo prominently displayed
+- Contact information clearly visible
+
+LAYOUT:
+- Question/headline at top (40% height)
+- Logo centered (30% height)
+- Contact info at bottom (30% height)
+
+TYPOGRAPHY:
+- Question: Bold sans-serif, white, large
+- Logo: Full Manchester branding
+- Contact: Regular weight, white, phone + WhatsApp icons
+
+ELEMENTS:
+- Phone icon with number
+- WhatsApp icon with "na bio" text
+- "SALVA ESSE POST 📌" reminder badge
+
+STYLE:
+- Bold, confident, action-oriented
+- Clear call-to-action
+- Brand-forward closing
+- 1:1 aspect ratio`,
+video:`ALTERNATIVA REELS — 25 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+Quick-paced educational video presenting 5 essential steps for steel purchasing.
+
+═══ ESTRUTURA GERAL ═══
+Duração total: 25 segundos
+Ritmo: Rápido, informativo, energético
+Tom: Educativo, profissional, útil
+Música: Upbeat electronic/corporate
+
+═══ SEQUÊNCIA DETALHADA ═══
+
+[0:00-0:02] HOOK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Text animates in dramatically
+- "5 PASSOS" large, bold
+- Subtext: "pra não errar na compra de aço"
+- Quick zoom effect on text
+
+SOUND:
+- Attention-grabbing sound effect
+- Music starts
+
+[0:02-0:05] PASSO 1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Blueprint icon animates in
+- "01 REVISE O PROJETO"
+- Quick cut to blueprint visual
+
+SOUND:
+- Whoosh on icon
+- Music continues
+
+[0:05-0:08] PASSO 2
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Calculator icon
+- "02 CALCULE QUANTITATIVOS"
+- Numbers animation
+
+SOUND:
+- Calculator click sounds
+
+[0:08-0:11] PASSO 3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Calendar icon
+- "03 CONSIDERE O PRAZO"
+- Dates highlighting animation
+
+SOUND:
+- Page flip sound
+
+[0:11-0:14] PASSO 4
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Certificate/stamp icon
+- "04 VERIFIQUE NORMAS"
+- Checkmark animation
+
+SOUND:
+- Stamp sound effect
+
+[0:14-0:17] PASSO 5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Sync arrows icon
+- "05 ALINHE CRONOGRAMA"
+- Timeline animation
+
+SOUND:
+- Sync/click sound
+
+[0:17-0:22] DICA BÔNUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Lightbulb icon with glow
+- "💡 ANTECIPE A COMPRA"
+- Graph showing price variation
+- Emphasis animation (pulse/glow)
+
+SOUND:
+- "Ding" revelation sound
+- Music builds
+
+[0:22-0:25] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- "SALVA ESSE VÍDEO 📌"
+- Manchester logo
+- Contact info fade in
+
+SOUND:
+- Music resolves
+- Final whoosh
+
+═══ ESTILO VISUAL ═══
+- Dark background throughout (#0a0a0a)
+- Red accent color (#C41E3A)
+- Clean white text
+- Minimal, purposeful animations
+- Consistent typography
+- Professional motion graphics
+
+═══ ÁUDIO ═══
+- Upbeat electronic/corporate music
+- Whoosh sounds on transitions
+- Click/tap sounds on icons
+- No voiceover (text-driven for accessibility)`,
+tela:`TEXTO NA TELA — CARROSSEL
+═══════════════════════════════════════
+
+SLIDE 1:
+"CHECKLIST 2026"
+"Como planejar a compra de aço sem erro"
+"SALVA ESSE POST 📌"
+
+SLIDE 2:
+"01"
+"📐 REVISAR O PROJETO ESTRUTURAL"
+"Projeto atualizado? Confira antes de orçar."
+"💡 Peça o arquivo .dwg atualizado"
+
+SLIDE 3:
+"02"
+"🧮 CALCULAR QUANTITATIVOS"
+"Use software ou peça ao engenheiro."
+"💡 Chutar sai caro"
+
+SLIDE 4:
+"03"
+"📅 CONSIDERAR PRAZO"
+"Corte/dobra: 3-7 dias"
+"Armadura pronta: 5-10 dias"
+"💡 Antecedência evita urgência"
+
+SLIDE 5:
+"04"
+"✅ VERIFICAR NORMAS"
+"NBR 7480 | Certificação | Laudos"
+"💡 Sem certificação = risco"
+
+SLIDE 6:
+"05"
+"🔄 ALINHAR CRONOGRAMA"
+"Entrega única ou programada?"
+"💡 Programar evita acúmulo"
+
+SLIDE 7:
+"💡 DICA BÔNUS"
+"ANTECIPE A COMPRA"
+"Preço varia. Fechar antes garante condição."
+
+SLIDE 8:
+"PRECISA DE AJUDA?"
+"Conferimos seu projeto gratuitamente"
+"📞 (21) 3214-1300"
+"SALVA ESSE POST! 📌"`,
+legenda:`📋 CHECKLIST 2026: Como planejar a compra de aço
+
+Começou o ano e você já tem obras pra tocar?
+Antes de sair pedindo orçamento, confere essa lista:
+
+✅ PASSO 1: REVISE O PROJETO
+Versão atualizada? Pranchas completas? Confira com o projetista.
+
+✅ PASSO 2: CALCULE QUANTITATIVOS
+Use software ou peça ao engenheiro. Chutar sai caro.
+
+✅ PASSO 3: CONSIDERE O PRAZO
+• Corte e dobra: 3-7 dias úteis
+• Armadura pronta: 5-10 dias úteis
+• Telas soldadas: 2-5 dias úteis
+
+✅ PASSO 4: VERIFIQUE NORMAS
+NBR 7480, certificação, laudos. Exija sempre.
+
+✅ PASSO 5: ALINHE O CRONOGRAMA
+Entrega única ou programada? Onde armazenar?
+
+💡 DICA BÔNUS: ANTECIPE A COMPRA
+Preço do aço varia com o mercado. Fechar antes garante melhor condição e prazo.
+
+SALVA ESSE POST! 📌
+
+Precisa de ajuda com seu projeto?
+A Manchester confere gratuitamente.
+
+📞 (21) 3214-1300
+📱 WhatsApp na bio
+
+#Manchester #Checklist #PlanejamentoDeObra #Engenharia #Aço #ConstruçãoCivil #DicasDeObra #CompradeAço #BelgoPronto`},
+
+{id:4,date:'2026-01-10',type:'DATA ESPECIAL',format:'Vídeo 30s',title:'👷 Dia do Engenheiro Civil: Os arquitetos do Brasil',desc:'Homenagem ao Dia do Engenheiro Civil (10/01)',
+narrativa:`ROTEIRO VÍDEO 30s — DIA DO ENGENHEIRO CIVIL
+═══════════════════════════════════════════════════════════════
+
+[0:00-0:05] ABERTURA EMOCIONAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Montagem de obras icônicas brasileiras
+- Pontes, viadutos, prédios em construção
+- Time-lapse de construção acelerado
+
+TEXTO NA TELA:
+"10 DE JANEIRO"
+"DIA DO ENGENHEIRO CIVIL"
+
+NARRAÇÃO/ÁUDIO:
+Música emocional, inspiradora (piano + orquestra leve)
+
+[0:05-0:15] HOMENAGEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Engenheiros trabalhando em campo
+- Análise de projetos
+- Conferência de materiais
+- Supervisão de equipes
+
+TEXTO NA TELA:
+"Vocês transformam números em estruturas"
+"Projetos em realidade"
+"Sonhos em concreto"
+
+[0:15-0:25] MENSAGEM MANCHESTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Parceria Manchester + engenheiros
+- Entrega de materiais
+- Satisfação do cliente
+
+TEXTO NA TELA:
+"A Manchester tem orgulho de construir 
+ao lado de vocês há mais de 30 anos"
+
+[0:25-0:30] FECHAMENTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VISUAL:
+- Logo Manchester
+- Engenheiro sorrindo
+
+TEXTO NA TELA:
+"FELIZ DIA DO ENGENHEIRO CIVIL! 👷"
+"@grupomanchester"`,
+imagem:`PROMPT IMAGEM — DIA DO ENGENHEIRO
+═══════════════════════════════════════════════════════════════
+
+Inspirational tribute image celebrating Civil Engineer Day in Brazil.
+
+COMPOSITION:
+- Brazilian civil engineer in foreground (professional, confident pose)
+- Construction site background with impressive structure
+- Golden hour lighting creating heroic atmosphere
+- Text overlay space in upper portion
+
+SUBJECT:
+- Male or female engineer, 35-50 years old
+- Wearing safety vest, hard hat, holding blueprints or tablet
+- Professional, proud expression
+- Looking towards construction/future
+
+BACKGROUND:
+- Major construction project (bridge, building, infrastructure)
+- Cranes, steel structures visible
+- Clear sky with golden light
+- Depth and scale showing project magnitude
+
+LIGHTING:
+- Golden hour, backlit subject
+- Rim light creating heroic silhouette
+- Warm, inspiring color temperature
+- Lens flare permitted
+
+COLOR PALETTE:
+- Warm golds and oranges (sunset)
+- Manchester red accents
+- Steel grey structures
+- Blue sky elements
+
+MOOD:
+- Pride, achievement, inspiration
+- Heroic, aspirational
+- Professional celebration
+- Forward-looking optimism
+
+STYLE:
+- Cinematic commercial photography
+- Editorial magazine quality
+- 1:1 and 9:16 versions for feed/stories
+- Space for text overlays`,
+video:`DIREÇÃO DE VÍDEO — 30s HOMENAGEM
+═══════════════════════════════════════════════════════════════
+
+Emotional tribute video celebrating Civil Engineer Day.
+
+═══ ESTRUTURA ═══
+
+[0:00-0:05] ABERTURA
+- Drone shots of impressive Brazilian construction
+- Time-lapse of building rising
+- Text: "10 DE JANEIRO - DIA DO ENGENHEIRO CIVIL"
+- Music: Emotional piano building
+
+[0:05-0:15] MONTAGEM HOMENAGEM
+- Engineers reviewing plans (close-up hands)
+- Site supervision (medium shot)
+- Team coordination (wide shot)
+- Problem-solving moments (candid)
+- Text overlays: inspirational messages
+
+[0:15-0:25] PARCERIA
+- Manchester delivery arriving at site
+- Engineer receiving materials
+- Handshake between team members
+- Satisfaction moments
+
+[0:25-0:30] FECHAMENTO
+- Logo reveal
+- "FELIZ DIA DO ENGENHEIRO CIVIL!"
+- Contact info
+
+═══ ESTILO ═══
+- Documentary feel
+- Golden hour lighting throughout
+- Emotional, respectful tone
+- Professional editing`,
+tela:`TEXTO NA TELA — DIA DO ENGENHEIRO
+═══════════════════════════════════════
+
+[0:00-0:05]
+"10 DE JANEIRO"
+"DIA DO ENGENHEIRO CIVIL"
+
+[0:05-0:10]
+"Vocês transformam números em estruturas"
+
+[0:10-0:15]
+"Projetos em realidade"
+"Sonhos em concreto"
+
+[0:15-0:25]
+"A Manchester tem orgulho de construir"
+"ao lado de vocês há mais de 30 anos"
+
+[0:25-0:30]
+"FELIZ DIA DO ENGENHEIRO CIVIL! 👷"
+"@grupomanchester"`,
+legenda:`👷 FELIZ DIA DO ENGENHEIRO CIVIL!
+
+10 de janeiro.
+
+Hoje é o dia de celebrar quem transforma:
+📐 Números em estruturas
+📋 Projetos em realidade
+🏗️ Sonhos em concreto
+
+Vocês são os verdadeiros arquitetos do Brasil.
+
+A cada ponte construída.
+A cada prédio erguido.
+A cada obra entregue.
+
+A Manchester tem orgulho de estar ao lado de vocês há mais de 30 anos, fornecendo o aço que sustenta suas criações.
+
+Obrigado por confiar na gente. 
+Obrigado por construir o Brasil.
+
+FELIZ DIA DO ENGENHEIRO CIVIL! 🎉
+
+Marca aquele engenheiro que você admira 👇
+
+📞 (21) 3214-1300
+
+#DiaDoEngenheiroCivil #Engenharia #ConstruçãoCivil #Manchester #10DeJaneiro #EngenhariaDeVerdade #OrgulhoDeSerEngenheiro`}
+],
+2: [
+{id:1,date:'2026-02-02',type:'PROBLEMA → SOLUÇÃO',format:'Reels 30s',title:'😰 "Operário caiu da laje. Não tinha linha de vida."',desc:'Problema real de segurança → Solução: planejamento',
+narrativa:`ROTEIRO REELS 30s — ACIDENTE DE TRABALHO
+═══════════════════════════════════════════════════════════════
+
+[0:00-0:03] HOOK IMPACTANTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA:
+"ISSO ACONTECEU ONTEM EM UMA OBRA"
+
+VISUAL:
+Tela preta, texto surge dramaticamente.
+Som de sirene ao fundo (sutil).
+
+[0:03-0:10] O PROBLEMA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NARRAÇÃO:
+"Operário trabalhando na laje. Sem cinto. Sem linha de vida.
+Um passo em falso. Queda de 4 metros."
+
+TEXTO NA TELA:
+"SEM CINTO"
+"SEM LINHA DE VIDA"
+"QUEDA DE 4 METROS"
+
+VISUAL:
+B-roll de canteiro de obras (genérico, sem acidente real).
+Foco em altura, bordas de laje, ausência de proteção.
+
+[0:10-0:15] A CONSEQUÊNCIA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA:
+"Fraturas múltiplas"
+"6 meses afastado"
+"Família sem renda"
+
+VISUAL:
+Imagens sugestivas (sem mostrar acidente):
+- Capacete no chão
+- Família preocupada
+- Cama de hospital (sugestivo)
+
+[0:15-0:23] A SOLUÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NARRAÇÃO:
+"Segurança não é custo. É investimento.
+Linha de vida. Cinto. Treinamento.
+Proteção coletiva primeiro."
+
+TEXTO NA TELA:
+"LINHA DE VIDA ✓"
+"CINTO DE SEGURANÇA ✓"
+"TREINAMENTO ✓"
+"PROTEÇÃO COLETIVA ✓"
+
+VISUAL:
+Obra organizada com todos EPCs e EPIs corretos.
+Trabalhadores usando equipamentos.
+
+[0:23-0:30] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA:
+"SUA OBRA TEM LINHA DE VIDA?"
+
+Logo Manchester
+"Segurança primeiro. Sempre."`,
+imagem:`PROMPT THUMBNAIL — SEGURANÇA
+═══════════════════════════════════════════════════════════════
+
+Impactful safety awareness thumbnail showing contrast between danger and protection.
+
+COMPOSITION:
+- Split screen or before/after format
+- Left: Dangerous situation (worker near edge without protection)
+- Right: Safe situation (same worker with full PPE and safety line)
+- Bold warning text overlay
+- High visual impact
+
+SUBJECT:
+- Construction worker on elevated structure
+- Clear visibility of safety equipment (or lack thereof)
+- Dramatic height perspective
+
+COLORS:
+- Danger side: Desaturated, red warning tint
+- Safe side: Normal colors, green accent
+- High contrast text
+
+MOOD:
+- Urgency, awareness, responsibility
+- Educational but impactful
+- Not graphic or disturbing
+
+STYLE:
+- Commercial safety campaign aesthetic
+- Clear message at thumbnail size
+- 9:16 for Reels cover`,
+video:`DIREÇÃO DE VÍDEO COMPLETA EM ARQUIVO NARRATIVA`,
+tela:`[0:00-0:03]
+"ISSO ACONTECEU ONTEM EM UMA OBRA"
+
+[0:03-0:10]
+"SEM CINTO"
+"SEM LINHA DE VIDA"
+"QUEDA DE 4 METROS"
+
+[0:10-0:15]
+"Fraturas múltiplas"
+"6 meses afastado"
+"Família sem renda"
+
+[0:15-0:23]
+"✓ LINHA DE VIDA"
+"✓ CINTO DE SEGURANÇA"
+"✓ TREINAMENTO"
+"✓ PROTEÇÃO COLETIVA"
+
+[0:23-0:30]
+"SUA OBRA TEM LINHA DE VIDA?"`,
+legenda:`😰 Isso aconteceu ontem em uma obra.
+
+Operário trabalhando na laje.
+Sem cinto. Sem linha de vida.
+Um passo em falso.
+Queda de 4 metros.
+
+Resultado:
+💔 Fraturas múltiplas
+⏰ 6 meses afastado
+👨‍👩‍👧 Família sem renda
+
+Isso NÃO precisava acontecer.
+
+Segurança não é custo. É INVESTIMENTO.
+
+✅ Linha de vida instalada
+✅ Cinto de segurança obrigatório
+✅ Treinamento antes de subir
+✅ Proteção coletiva primeiro
+
+Uma queda muda vidas. Todas as vidas.
+Do trabalhador. Da família. Do engenheiro responsável.
+
+SUA OBRA TEM LINHA DE VIDA?
+
+#SegurançaNoTrabalho #Construção #NR18 #Segurança #Manchester #ObraSegura`}
+],
+2: [
+{id:1,date:'2026-02-03',type:'REELS',format:'Reels 45s',title:'😤 Espaçador errado = cobrimento errado = laudo reprovado',desc:'O vilão silencioso das obras: como o espaçador errado reprova laudos',
+narrativa:`ROTEIRO REELS — ESPAÇADOR ERRADO
+═══════════════════════════════════════
+
+[0:00-0:03] GANCHO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA: "LAUDO REPROVADO?"
+NARRAÇÃO: "Seu laudo foi reprovado por cobrimento?"
+
+[0:03-0:10] PROBLEMA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "O VILÃO SILENCIOSO"
+NARRAÇÃO: "O espaçador errado é o vilão silencioso. Parece economia, mas custa caro depois."
+VISUAL: Close em espaçador barato quebrando, concreto descascando mostrando armadura.
+
+[0:10-0:25] SOLUÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "ESPAÇADOR CERTO = NBR 6118 ✓"
+NARRAÇÃO: "Espaçador certo = cobrimento certo = NBR 6118 atendida = laudo aprovado."
+VISUAL: Espaçador sendo posicionado corretamente, régua medindo cobrimento perfeito.
+
+[0:25-0:35] PROVA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "MANCHESTER: AÇO + ESPAÇADORES"
+NARRAÇÃO: "Na Manchester, entregamos espaçadores certificados junto com seu aço. Tudo conferido."
+VISUAL: Pacotes de espaçadores organizados, etiquetados, junto com vergalhões.
+
+[0:35-0:45] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "NÃO ARRISQUE SEU LAUDO"
+NARRAÇÃO: "Não arrisque seu laudo. Fale com a gente."
+VISUAL: Logo Manchester + contato`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Cinematic close-up of concrete spacer (espaçador) being placed on rebar in construction site.
+
+COMPOSITION:
+- Macro shot of plastic spacer sitting on steel rebar
+- Worker's gloved hands positioning the component
+- Shallow depth of field focusing on spacer
+- Construction site background softly blurred
+
+LIGHTING:
+- Dramatic side lighting emphasizing texture
+- Dust particles visible in light beams
+- Industrial atmosphere
+
+STYLE:
+- Documentary construction photography
+- 8K quality, 9:16 vertical format for Reels
+- Manchester red accent on spacer or overlay
+
+MOOD:
+- Precision, attention to detail
+- Professional construction standards`,
+video:`DIREÇÃO DE VÍDEO — 45 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:03) — HOOK
+- Close-up de laudo técnico com carimbo "REPROVADO" em vermelho
+- Mão do engenheiro batendo na mesa frustrado
+- Som: impacto dramático
+
+TAKE 2 (0:03-0:10) — PROBLEMA
+- Sequência mostrando:
+  1. Espaçador barato de plástico fino
+  2. Concreto descascando revelando ferrugem
+  3. Régua medindo cobrimento insuficiente
+- Tom: problema sério, consequência real
+
+TAKE 3 (0:10-0:25) — SOLUÇÃO
+- Espaçador correto sendo posicionado (slow motion)
+- Medição precisa do cobrimento (25mm visível)
+- Concretagem acontecendo sobre armadura correta
+- Tom: solução técnica, profissional
+
+TAKE 4 (0:25-0:35) — CREDIBILIDADE
+- Galpão Manchester com estoque de espaçadores
+- Pacotes etiquetados sendo separados
+- Junto com vergalhões no mesmo pedido
+
+TAKE 5 (0:35-0:45) — CTA
+- Logo Manchester em fundo industrial
+- Texto: "Espaçadores certificados + Aço de qualidade"
+- Contato WhatsApp`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "LAUDO REPROVADO?"
+CENA 2: "O problema pode estar aqui" [seta pro espaçador]
+CENA 3: "Espaçador CERTO = Cobrimento CERTO"
+CENA 4: "NBR 6118 ✓"
+CENA 5: "Manchester: aço + espaçadores certificados"
+CENA 6: "📲 (21) 99812-2594"`,
+legenda:`⚠️ LAUDO REPROVADO POR COBRIMENTO?
+
+O vilão pode ser o espaçador errado.
+
+Parece economia, mas custa caro depois:
+❌ Laudo reprovado
+❌ Retrabalho
+❌ Atraso na obra
+❌ Custo extra
+
+Espaçador certo = cobrimento certo = NBR 6118 atendida.
+
+Na Manchester, entregamos espaçadores certificados junto com seu aço. Tudo conferido antes de sair.
+
+👉 Não arrisque seu laudo. Fale com a gente!
+
+📲 (21) 99812-2594
+🌐 manchesternet.com.br
+
+#manchester #espacador #cobrimento #nbr6118 #construcaocivil #engenharia #obra #vergalhao #laudo #riodejaneiro`},
+
+{id:2,date:'2026-02-04',type:'CARROSSEL',format:'Carrossel 7 slides',title:'🏗️ COLUNA PRONTA: 5 motivos pra nunca mais armar na obra',desc:'Por que colunas pré-montadas aceleram sua obra e reduzem custos',
+narrativa:`CARROSSEL — COLUNA PRONTA
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "COLUNA PRONTA"
+SUBTÍTULO: "5 motivos pra nunca mais armar na obra"
+VISUAL: Coluna de aço pré-montada em destaque, fundo galpão industrial
+
+SLIDE 2 — MOTIVO 1: TEMPO
+ÍCONE: ⏱️
+TEXTO: "Coluna pronta chega montada. Sua equipe só posiciona."
+DESTAQUE: "Menos horas de armação = mais velocidade"
+
+SLIDE 3 — MOTIVO 2: PRECISÃO
+ÍCONE: 📐
+TEXTO: "Montagem industrial com gabaritos."
+DESTAQUE: "Ângulos e medidas exatas. Sem improviso."
+
+SLIDE 4 — MOTIVO 3: ECONOMIA
+ÍCONE: 💰
+TEXTO: "Menos mão de obra no canteiro."
+DESTAQUE: "Menos desperdício de material."
+
+SLIDE 5 — MOTIVO 4: SEGURANÇA
+ÍCONE: 🛡️
+TEXTO: "Menos operações com aço na obra."
+DESTAQUE: "Menos risco de acidente."
+
+SLIDE 6 — MOTIVO 5: QUALIDADE
+ÍCONE: ✅
+TEXTO: "Conferência antes da entrega."
+DESTAQUE: "Rastreabilidade total."
+
+SLIDE 7 — CTA
+TEXTO: "Pronto pra mudar?"
+CTA: "Envie seu projeto → Orçamento em 24h"
+CONTATO: "📲 (21) 99812-2594"`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Professional product photography of pre-assembled steel column (coluna pronta) ready for installation. Clean industrial warehouse background. Column showing precise welding, organized stirrups, identification tags. Style: industrial product photography, Manchester red accents, 8K quality, 1:1 square format.
+
+SLIDE 2-6 — MOTIVOS:
+Clean infographic style with industrial background. Large icon on left, text on right. Consistent visual language across all slides. Dark background with Manchester red highlights.
+
+SLIDE 7 — CTA:
+Manchester warehouse backdrop with organized steel products. Logo prominent, contact information clear. Professional corporate photography.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "COLUNA PRONTA — 5 motivos"
+SLIDE 2: "⏱️ TEMPO — Chega montada"
+SLIDE 3: "📐 PRECISÃO — Gabaritos industriais"
+SLIDE 4: "💰 ECONOMIA — Menos mão de obra"
+SLIDE 5: "🛡️ SEGURANÇA — Menos risco"
+SLIDE 6: "✅ QUALIDADE — Conferência total"
+SLIDE 7: "Envie seu projeto → Orçamento 24h"`,
+legenda:`🏗️ COLUNA PRONTA: 5 motivos pra nunca mais armar na obra
+
+Ainda montando coluna no canteiro? Veja por que isso está ficando no passado:
+
+1️⃣ **TEMPO** — Chega montada, sua equipe só posiciona
+2️⃣ **PRECISÃO** — Gabaritos industriais, medidas exatas
+3️⃣ **ECONOMIA** — Menos mão de obra e desperdício
+4️⃣ **SEGURANÇA** — Menos operações de risco
+5️⃣ **QUALIDADE** — Conferência e rastreabilidade total
+
+A Manchester entrega colunas prontas conforme seu projeto. Cortadas, dobradas e montadas com precisão industrial.
+
+👉 Envie seu projeto e receba orçamento em 24h!
+
+📲 (21) 99812-2594
+🌐 manchesternet.com.br
+
+#manchester #colunapronta #belgopronto #armadurapronta #construcaocivil #engenharia #obra #acocortadoodobrado #riodejaneiro`},
+
+{id:3,date:'2026-02-05',type:'ESTÁTICO',format:'Post estático',title:'🔩 TRELIÇA: Laje mais leve, menos escoramento, montagem rápida',desc:'A alma da laje nervurada e seus benefícios estruturais',
+narrativa:`POST ESTÁTICO — TRELIÇA
+═══════════════════════════════════════
+
+HEADLINE: "TRELIÇA"
+SUB: "Laje mais leve. Menos escoramento. Montagem rápida."
+
+CORPO:
+A treliça é a alma da laje nervurada. Combina leveza estrutural com resistência mecânica.
+
+BENEFÍCIOS:
+✅ Reduz peso próprio da laje
+✅ Diminui necessidade de escoramento
+✅ Acelera montagem no canteiro
+✅ Vãos maiores com menos material
+
+CTA: "Precisa de treliça? Manchester tem pronta entrega."
+CONTATO: (21) 99812-2594`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Technical product shot of steel truss (treliça) for concrete slabs.
+
+COMPOSITION:
+- Clean white/grey background
+- Dramatic side lighting showing triangular wire pattern
+- Multiple trusses stacked showing scale
+- Detail of welded joints visible
+
+STYLE:
+- Industrial product photography
+- 8K quality, 1:1 format
+- Subtle Manchester red accent in corner or overlay
+
+MOOD:
+- Technical, professional, structural strength`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+TRELIÇA
+
+Laje mais leve
+Menos escoramento
+Montagem rápida
+
+✅ Reduz peso próprio
+✅ Diminui escoramento
+✅ Acelera montagem
+✅ Vãos maiores
+
+Pronta entrega Manchester
+📲 (21) 99812-2594`,
+legenda:`🏗️ TRELIÇA — A alma da laje nervurada
+
+Você sabe por que a treliça revolucionou as lajes?
+
+✅ **Laje mais leve** — Reduz peso próprio da estrutura
+✅ **Menos escoramento** — Economia em madeira e mão de obra
+✅ **Montagem rápida** — Agiliza o cronograma
+✅ **Vãos maiores** — Menos pilares, mais espaço livre
+
+A treliça combina leveza estrutural com resistência mecânica. Ideal para lajes nervuradas em obras residenciais, comerciais e industriais.
+
+📍 Manchester tem treliça em pronta entrega. Diversas alturas e comprimentos.
+
+📲 (21) 99812-2594
+🌐 manchesternet.com.br
+
+#manchester #trelica #laje #lajenervurada #construcaocivil #engenharia #estrutura #obra #riodejaneiro #arcelormittal`},
+
+{id:4,date:'2026-02-06',type:'CARROSSEL',format:'Carrossel 6 slides',title:'🤔 ARAME FARPADO: Ainda vale a pena? Onde usar e onde evitar',desc:'Guia completo sobre quando usar e quando evitar arame farpado',
+narrativa:`CARROSSEL — ARAME FARPADO
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "ARAME FARPADO"
+SUBTÍTULO: "Ainda vale a pena? Onde usar e onde evitar →"
+VISUAL: Arame farpado em contra-luz, estética rural
+
+SLIDE 2 — O QUE É
+TEXTO: "Arame de aço com farpas pontiagudas a cada 10-15cm."
+DESTAQUE: "Uso histórico: delimitação e dissuasão básica."
+
+SLIDE 3 — ONDE USAR ✅
+• Áreas rurais e fazendas
+• Delimitação de terrenos grandes
+• Complemento em cercas existentes
+• Proteção de topo (custo baixo)
+
+SLIDE 4 — ONDE EVITAR ❌
+• Áreas urbanas (risco legal)
+• Locais com crianças
+• Fachadas visíveis
+• Onde estética importa
+
+SLIDE 5 — ALTERNATIVAS MODERNAS
+• Concertina (mais segura)
+• Gradil com lança (estético)
+• Cerca elétrica (tecnologia)
+
+SLIDE 6 — CTA
+"Precisa de orientação?"
+"Nosso time indica a melhor solução."
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Documentary style photograph of barbed wire fence in rural Brazilian setting. Morning light, pastoral landscape background. Close-up showing wire detail and barbs. Style: agricultural/rural photography, 8K quality, 1:1 format.
+
+SLIDES 2-5 — CONTEÚDO:
+Clean infographic style. Icons and check marks. Dark background with organized information. Visual distinction between "usar" (green) and "evitar" (red).
+
+SLIDE 6 — CTA:
+Manchester branding with professional consultation imagery.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "ARAME FARPADO — Vale a pena?"
+SLIDE 2: "O que é — farpas a cada 10-15cm"
+SLIDE 3: "✅ Onde usar — rural, terrenos grandes"
+SLIDE 4: "❌ Onde evitar — urbano, crianças"
+SLIDE 5: "Alternativas — concertina, gradil"
+SLIDE 6: "Consultoria gratuita 📲"`,
+legenda:`🤔 ARAME FARPADO: Ainda vale a pena?
+
+Depende de onde você vai usar.
+
+**✅ ONDE USAR:**
+• Áreas rurais e fazendas
+• Delimitação de terrenos grandes
+• Complemento em cercas existentes
+• Proteção de topo (custo baixo)
+
+**❌ ONDE EVITAR:**
+• Áreas urbanas (risco de processo)
+• Locais com circulação de crianças
+• Fachadas visíveis ao público
+• Onde estética importa
+
+**ALTERNATIVAS MODERNAS:**
+• Concertina — mais segura e eficiente
+• Gradil com lança — estético e funcional
+• Cerca elétrica — tecnologia e monitoramento
+
+Arraste e veja o guia completo! 👆
+
+📲 (21) 99812-2594
+🌐 manchesternet.com.br
+
+#manchester #aramefarpado #cercamento #seguranca #rural #fazenda #agro #cercas #riodejaneiro #belgobekaert`},
+
+{id:5,date:'2026-02-07',type:'REELS',format:'Reels 45s',title:'📊 Seu projeto tem 847 peças. A gente sabe onde cada uma vai.',desc:'Como o Belgo Pronto organiza centenas de peças com precisão',
+narrativa:`ROTEIRO REELS — 847 PEÇAS
+═══════════════════════════════════════
+
+[0:00-0:05] GANCHO
+TEXTO: "847 PEÇAS"
+NARRAÇÃO: "Seu projeto estrutural tem 847 peças."
+VISUAL: Número aparecendo grande na tela, zoom out revelando galpão
+
+[0:05-0:20] DESENVOLVIMENTO
+TEXTO: "A gente sabe onde cada uma vai"
+NARRAÇÃO: "A gente sabe exatamente onde cada uma vai. Pilar P1, Viga V12, Laje L3..."
+VISUAL: Planilha no computador, etiquetas sendo impressas, peças organizadas
+
+[0:20-0:35] PROVA
+TEXTO: "CORTADO. DOBRADO. ETIQUETADO."
+NARRAÇÃO: "Cada vergalhão cortado na medida. Cada estribo dobrado no ângulo. Cada peça conferida e etiquetada."
+VISUAL: CNC cortando, dobradeira em ação, etiquetas QR code
+
+[0:35-0:45] CTA
+TEXTO: "ZERO DÚVIDA NA OBRA"
+NARRAÇÃO: "847 peças. Zero dúvida na obra. Isso é Belgo Pronto Manchester."
+VISUAL: Caminhão carregando, entrega na obra, logo Manchester`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Cinematic wide shot of organized steel pieces with identification tags in Manchester warehouse.
+
+COMPOSITION:
+- Dramatic industrial lighting
+- Hundreds of steel bundles visible
+- Each bundle clearly labeled with codes (P1, V12, L3)
+- Scale impressive showing organization
+
+LIGHTING:
+- Industrial overhead lighting
+- Dramatic shadows creating depth
+- Warm accent lights on labels
+
+STYLE:
+- Industrial logistics photography
+- 8K quality, 9:16 format
+- Manchester red visible in branding
+
+MOOD:
+- Organization, precision, impressive scale`,
+video:`DIREÇÃO DE VÍDEO — 45 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:05) — GANCHO
+- Número "847" aparece em tipografia bold
+- Zoom out revelando galpão cheio de aço organizado
+- Som: impacto cinematográfico
+
+TAKE 2 (0:05-0:20) — ORGANIZAÇÃO
+- Tela de computador com planilha de corte
+- Impressora gerando etiquetas
+- Funcionário colando etiquetas nas peças
+- Códigos visíveis: P1, V12, L3
+
+TAKE 3 (0:20-0:35) — PROCESSO
+- CNC cortando vergalhão (faíscas)
+- Dobradeira conformando estribo
+- Close nas etiquetas QR code
+- Conferência com tablet
+
+TAKE 4 (0:35-0:45) — ENTREGA
+- Peças sendo carregadas organizadas
+- Caminhão Manchester saindo
+- Logo + contato`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "847 PEÇAS"
+CENA 2: "A gente sabe onde cada uma vai"
+CENA 3: "P1... V12... L3..."
+CENA 4: "Cortado. Dobrado. Etiquetado."
+CENA 5: "ZERO DÚVIDA NA OBRA"
+CENA 6: "Belgo Pronto Manchester"`,
+legenda:`📊 SEU PROJETO TEM 847 PEÇAS.
+
+A gente sabe exatamente onde cada uma vai.
+
+🏷️ **Pilar P1** — cortado, dobrado, etiquetado
+🏷️ **Viga V12** — cortada, dobrada, etiquetada
+🏷️ **Laje L3** — cortada, dobrada, etiquetada
+
+Cada vergalhão na medida certa.
+Cada estribo no ângulo exato.
+Cada peça conferida antes de sair.
+
+**847 peças. Zero dúvida na obra.**
+
+Isso é Belgo Pronto Manchester.
+
+👉 Envie seu projeto e veja a diferença.
+
+📲 (21) 99812-2594
+🌐 manchesternet.com.br
+
+#manchester #belgopronto #847pecas #organizacao #acocortadoodobrado #engenharia #construcaocivil #obra #riodejaneiro #arcelormittal`},
+
+{id:6,date:'2026-02-10',type:'CARROSSEL',format:'Carrossel 8 slides',title:'📐 TELA SOLDADA: O guia definitivo pra não errar na especificação',desc:'Como especificar tela soldada corretamente e evitar erros',
+narrativa:`CARROSSEL — TELA SOLDADA GUIA
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "TELA SOLDADA: O GUIA DEFINITIVO"
+SUBTÍTULO: "Especifique certo. Economize. Evite retrabalho."
+
+SLIDE 2 — O QUE É
+TEXTO: "Fios de aço CA 60 nervurado, soldados em malha ortogonal."
+APLICAÇÕES: "Lajes, pisos, radiers, contenções."
+
+SLIDE 3 — COMO ESPECIFICAR
+"4 parâmetros essenciais:"
+1️⃣ Malha (15x15, 10x10)
+2️⃣ Diâmetro do fio (4,2mm, 5mm)
+3️⃣ Dimensões do painel
+4️⃣ Tipo de aço (CA 60)
+
+SLIDE 4 — TABELA DE APLICAÇÃO
+| Aplicação | Malha | Bitola |
+| Laje residencial | 15x15 | 4,2mm |
+| Piso industrial | 10x10 | 5,0mm |
+| Radier | 15x15 | 5,0mm |
+
+SLIDE 5 — ERROS COMUNS
+❌ Malha maior que necessário
+❌ Ignorar ambiente agressivo
+❌ Não considerar emendas
+❌ Comprar sem certificação
+
+SLIDE 6 — VANTAGENS
+✅ Montagem 50% mais rápida
+✅ Uniformidade garantida
+✅ Conformidade NBR
+
+SLIDE 7-8 — CTA
+"Precisa de tela? Manchester tem pronta entrega."
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Product photography of welded wire mesh (tela soldada) panels stacked in warehouse. Clean industrial setting, professional lighting showing grid pattern clearly. ArcelorMittal partnership badge visible.
+
+SLIDES 2-6 — CONTEÚDO:
+Educational infographic style with technical illustrations. Clean backgrounds, organized tables, professional data visualization.
+
+SLIDE 7-8 — CTA:
+Manchester warehouse with mesh inventory, professional corporate photography.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "TELA SOLDADA — Guia Definitivo"
+SLIDE 2: "CA 60 nervurado + soldas"
+SLIDE 3: "4 parâmetros essenciais"
+SLIDE 4: "Tabela de aplicações"
+SLIDE 5: "Erros comuns ❌"
+SLIDE 6: "Vantagens ✅"
+SLIDE 7-8: "Pronta entrega Manchester"`,
+legenda:`📐 TELA SOLDADA: O guia definitivo pra não errar
+
+Você sabe como especificar tela soldada?
+
+**Os 4 parâmetros essenciais:**
+1️⃣ **MALHA** — 15x15cm, 10x10cm
+2️⃣ **DIÂMETRO** — 4,2mm, 5mm, 6mm
+3️⃣ **DIMENSÕES** — Largura x Comprimento
+4️⃣ **TIPO DE AÇO** — CA 60 nervurado
+
+**Referência rápida:**
+• Laje residencial → 15x15, fio 4,2mm
+• Piso industrial → 10x10, fio 5,0mm
+• Radier → 15x15, fio 5,0mm
+
+**Por que usar tela soldada?**
+✅ Montagem 50% mais rápida
+✅ Uniformidade garantida
+✅ Conformidade NBR
+✅ Perda mínima
+
+Arraste e veja o guia completo! 👆
+
+📲 (21) 99812-2594
+
+#manchester #telasoldada #construcaocivil #engenharia #laje #radier #obra #arcelormittal #riodejaneiro`},
+
+{id:7,date:'2026-02-11',type:'ESTÁTICO',format:'Post estático',title:'⚠️ RECESSO CARNAVAL: 14 a 18/02 — Garanta seu aço antes da folia!',desc:'Comunicação oficial do recesso de Carnaval Manchester',
+narrativa:`POST ESTÁTICO — RECESSO CARNAVAL
+═══════════════════════════════════════
+
+HEADLINE: "⚠️ RECESSO CARNAVAL"
+INFO: "14 A 18 DE FEVEREIRO"
+SUB: "GARANTA SEU AÇO ANTES DA FOLIA!"
+
+VISUAL:
+• Fundo vermelho Manchester (#C41E3A)
+• Elementos de Carnaval sutis (confetes dourados elegantes)
+• Calendário com datas 14-18 marcadas
+• Logo Manchester
+• Barra dourada de destaque
+
+CTA: "Antecipe seu pedido"
+CONTATO: 📲 (21) 99812-2594`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Corporate announcement graphic for Carnival recess.
+
+BACKGROUND:
+- Manchester brand red (#C41E3A) solid or gradient
+
+ELEMENTS:
+- Calendar icon showing February 14-18 marked
+- Subtle Carnival confetti in corners (elegant, gold)
+- Sophisticated mask silhouette (optional)
+- Manchester logo bottom corner
+- Golden accent bar (#C9A227)
+
+TYPOGRAPHY:
+- Large space for "RECESSO CARNAVAL"
+- Secondary space for dates
+- Clean, corporate font
+
+STYLE:
+- Corporate meets festive
+- Professional, not tacky
+- 8K quality, 1:1 format
+
+MOOD:
+- Informative, urgent but celebratory`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+⚠️ RECESSO CARNAVAL
+
+14 A 18 DE FEVEREIRO
+
+Retorno: 19/02
+
+GARANTA SEU AÇO
+ANTES DA FOLIA!
+
+📲 (21) 99812-2594`,
+legenda:`⚠️ ATENÇÃO, CONSTRUTOR!
+
+Carnaval tá chegando — e a Manchester vai dar uma pausa.
+
+📅 **RECESSO: 14 a 18 de Fevereiro**
+📅 **RETORNO: 19/02 (Quarta-feira)**
+
+Mas calma: se sua obra não pode esperar, **antecipe seu pedido agora**!
+
+Nosso time tá pronto pra garantir que seu aço chegue antes da folia! 🎭
+
+👉 Fale com a gente hoje mesmo!
+
+📲 (21) 99812-2594
+🌐 manchesternet.com.br
+
+#manchester #carnaval2026 #feriado #recesso #construcaocivil #obra #aco #riodejaneiro`},
+
+{id:8,date:'2026-02-12',type:'REELS',format:'Reels 60s',title:'🔒 Securifor + Concertina: A dupla que protege presídios e aeroportos',desc:'Combinação de alta segurança para áreas críticas',
+narrativa:`ROTEIRO REELS — SECURIFOR + CONCERTINA
+═══════════════════════════════════════
+
+[0:00-0:05] GANCHO
+TEXTO: "O QUE PROTEGE PRESÍDIOS?"
+NARRAÇÃO: "Você sabe o que protege presídios e aeroportos?"
+
+[0:05-0:12] PROBLEMA
+TEXTO: "CERCAS COMUNS NÃO SEGURAM"
+NARRAÇÃO: "Cercas comuns não aguentam invasão profissional. Cortadas em segundos. Escaladas em minutos."
+
+[0:12-0:25] SECURIFOR
+TEXTO: "SECURIFOR® — MALHA ANTIESCALADA"
+NARRAÇÃO: "Por isso existe o Securifor. Malha 10x1,27cm. Tão fechada que não dá pra apoiar os dedos. Tão reforçada que não corta."
+VISUAL: Close na malha ultra-fechada, mão tentando escalar e falhando
+
+[0:25-0:38] CONCERTINA
+TEXTO: "CONCERTINA — BARREIRA INTRANSPONÍVEL"
+NARRAÇÃO: "E no topo: Concertina. Lâminas de aço que cortam qualquer tentativa. A combinação que ninguém atravessa."
+VISUAL: Concertina brilhando ao sol, lâminas em destaque
+
+[0:38-0:48] CREDIBILIDADE
+TEXTO: "60 KM NO METRÔ DE SALVADOR"
+NARRAÇÃO: "60 km no Metrô de Salvador. Petrobras. Aeroportos."
+VISUAL: Imagens de referência de instalações
+
+[0:48-0:60] CTA
+TEXTO: "MANCHESTER + BELGO BEKAERT"
+NARRAÇÃO: "Precisa de alta segurança? Manchester é Belgo Bekaert."
+VISUAL: Logo + contato`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Cinematic aerial shot of high-security perimeter with Securifor gradil and concertina wire.
+
+COMPOSITION:
+- Dawn lighting, mist for atmosphere
+- Industrial facility or airport in background
+- Impressive scale of installation
+- Double barrier system visible
+
+LIGHTING:
+- Golden hour, dramatic shadows
+- Backlit concertina wire gleaming
+
+STYLE:
+- Security documentary photography
+- 8K quality, 9:16 format
+- Authoritative, impenetrable feel
+
+MOOD:
+- Maximum security, authority`,
+video:`DIREÇÃO DE VÍDEO — 60 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:05) — GANCHO
+- Drone approaching secure facility at dawn
+- Text appears: "O QUE PROTEGE PRESÍDIOS?"
+- Ominous, intriguing tone
+
+TAKE 2 (0:05-0:12) — PROBLEMA
+- Quick cuts: fence being cut, person climbing over basic fence
+- Demonstrating vulnerability of common solutions
+
+TAKE 3 (0:12-0:25) — SECURIFOR
+- Slow motion: hand trying to grip ultra-tight mesh, failing
+- Close-up of 10x1.27cm mesh pattern
+- Wire cutter struggling against reinforced wire
+
+TAKE 4 (0:25-0:38) — CONCERTINA
+- Dramatic shots of concertina razor wire
+- Sunlight glinting off blades
+- Installation footage
+
+TAKE 5 (0:38-0:48) — CREDIBILIDADE
+- Reference images: Metro Salvador, industrial installations
+- Text overlays with statistics
+
+TAKE 6 (0:48-0:60) — CTA
+- Manchester + Belgo Bekaert logos
+- Contact information
+- Professional warehouse backdrop`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "O que protege presídios?"
+CENA 2: "Cercas comuns NÃO seguram"
+CENA 3: "SECURIFOR — Malha antiescalada"
+CENA 4: "CONCERTINA — Barreira intransponível"
+CENA 5: "60 km no Metrô de Salvador"
+CENA 6: "Manchester + Belgo Bekaert"`,
+legenda:`🔒 A DUPLA QUE PROTEGE O QUE MAIS IMPORTA
+
+Presídios. Aeroportos. Áreas militares.
+
+O que todos têm em comum?
+
+👉 **Securifor® + Concertina**
+
+**SECURIFOR®:**
+• Malha ultra-fechada (10 x 1,27 cm)
+• Impossível escalar — sem apoio pra dedos
+• Impossível cortar — resiste alicate industrial
+
+**CONCERTINA:**
+• Lâminas de aço galvanizado
+• Barreira intransponível no topo
+
+📍 **Já protegemos:**
+• 60 km no Metrô de Salvador
+• Petrobras
+• Aeroportos
+
+Manchester é distribuidora oficial **Belgo Bekaert**.
+
+📲 (21) 99812-2594
+
+#manchester #cercamento #securifor #concertina #altaseguranca #belgobekaert #seguranca #riodejaneiro`},
+
+{id:9,date:'2026-02-19',type:'REELS',format:'Reels 45s',title:'🎭 VOLTAMOS! Pedidos de Carnaval já estão saindo',desc:'Retorno pós-Carnaval com operação a todo vapor',
+narrativa:`ROTEIRO REELS — VOLTAMOS
+═══════════════════════════════════════
+
+[0:00-0:05] GANCHO
+TEXTO: "ACABOU A FOLIA..."
+VISUAL: Portão do galpão abrindo ao amanhecer
+NARRAÇÃO: "Acabou a folia!"
+
+[0:05-0:10] TRANSIÇÃO
+TEXTO: "A MANCHESTER VOLTOU!"
+VISUAL: Galpão se iluminando, atividade começando
+NARRAÇÃO: "A Manchester tá de volta!"
+
+[0:10-0:22] OPERAÇÃO
+TEXTO: "ESTOQUE CHEIO ✓ TIME COMPLETO ✓"
+NARRAÇÃO: "Estoque cheio. Time completo. Máquinas rodando. Os pedidos de antes do Carnaval já estão saindo."
+VISUAL: Empilhadeira, CNC cortando, equipe trabalhando
+
+[0:22-0:32] URGÊNCIA
+TEXTO: "ALTA DEMANDA FEV/MAR"
+NARRAÇÃO: "Fevereiro e Março são alta demanda. Quem não garante aço agora, espera depois."
+VISUAL: Calendário, pedidos empilhando
+
+[0:32-0:45] CTA
+TEXTO: "SEU AÇO TÁ GARANTIDO?"
+NARRAÇÃO: "Seu aço tá garantido? Fale com a gente agora."
+VISUAL: Logo + WhatsApp`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Cinematic shot of large industrial warehouse gate opening at dawn.
+
+COMPOSITION:
+- Massive sliding gate half-open
+- Morning light streaming through
+- Silhouettes of activity inside
+- Forklift visible, steel stacks
+
+LIGHTING:
+- Golden hour, rays of light
+- Industrial atmosphere
+- Warm, energetic feeling
+
+STYLE:
+- Cinematic industrial
+- "New day beginning" aesthetic
+- 8K quality, 9:16 format
+
+MOOD:
+- Energy, readiness, "we're back"`,
+video:`DIREÇÃO DE VÍDEO — 45 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:05) — ABERTURA
+- Gate opening with morning light
+- Slow, dramatic reveal
+- Sound: metal sliding, birds chirping
+
+TAKE 2 (0:05-0:10) — ATIVAÇÃO
+- Lights turning on in warehouse
+- Machines starting up
+- Energy building
+
+TAKE 3 (0:10-0:22) — OPERAÇÃO
+- Forklift moving steel
+- CNC cutting (sparks)
+- Team coordinating
+- Orders being prepared
+
+TAKE 4 (0:22-0:32) — URGÊNCIA
+- Calendar animation showing Feb/Mar
+- Stacks of order papers
+- Sense of demand
+
+TAKE 5 (0:32-0:45) — CTA
+- Logo Manchester
+- WhatsApp contact
+- Truck departing`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "ACABOU A FOLIA..."
+CENA 2: "A MANCHESTER VOLTOU!"
+CENA 3: "Estoque cheio ✓ Time completo ✓"
+CENA 4: "ALTA DEMANDA FEV/MAR"
+CENA 5: "Seu aço tá garantido?"`,
+legenda:`🎭 ACABOU A FOLIA!
+
+A Manchester tá de volta — e sua obra não pode esperar.
+
+✅ Estoque cheio
+✅ Time completo
+✅ Máquinas rodando
+✅ Logística pronta
+
+Os pedidos de antes do Carnaval já estão saindo. 🚛
+
+⚠️ **ATENÇÃO:** Fevereiro e Março = alta demanda. Quem não garante aço agora, espera depois.
+
+**Seu aço tá garantido?**
+
+📲 (21) 99812-2594
+
+#manchester #voltamos #carnaval #obra #aco #construcaocivil #entrega #riodejaneiro`},
+
+{id:10,date:'2026-02-20',type:'CARROSSEL',format:'Carrossel 8 slides',title:'📐 DO PROJETO À OBRA: O caminho do seu aço na Manchester',desc:'As 6 etapas do processo Belgo Pronto',
+narrativa:`CARROSSEL — DO PROJETO À OBRA
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "DO PROJETO À OBRA"
+SUBTÍTULO: "O caminho do seu aço na Manchester"
+VISUAL: Split engenheiro/canteiro conectados
+
+SLIDE 2 — ETAPA 1
+"01 | RECEBIMENTO DO PROJETO"
+"Você envia: PDF, DWG, cronograma"
+"Nosso time analisa e planifica."
+
+SLIDE 3 — ETAPA 2
+"02 | PLANILHA DE CORTE"
+"Todas as peças numeradas, bitolas, comprimentos, formatos."
+"PERDA ZERO."
+
+SLIDE 4 — ETAPA 3
+"03 | CORTE CNC DE PRECISÃO"
+"Máquinas de última geração. Tolerância milimétrica."
+
+SLIDE 5 — ETAPA 4
+"04 | DOBRA AUTOMATIZADA"
+"Ângulos exatos. Repetibilidade garantida."
+
+SLIDE 6 — ETAPA 5
+"05 | CONFERÊNCIA E ETIQUETAGEM"
+"Cada peça verificada e identificada."
+
+SLIDE 7 — ETAPA 6
+"06 | ENTREGA PROGRAMADA"
+"Conforme cronograma da obra."
+
+SLIDE 8 — CTA
+"Envie seu projeto → Orçamento em 24h"
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Split composition showing engineering office (blueprints on screen) connected visually to construction site (steel being assembled). Red line/flow connecting both sides. Corporate infographic meets cinematic.
+
+SLIDES 2-7 — ETAPAS:
+Process photography showing each step. Industrial settings, professional lighting, numbered steps prominently displayed.
+
+SLIDE 8 — CTA:
+Manchester warehouse, logo prominent, contact information clear.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "DO PROJETO À OBRA"
+SLIDE 2: "01 — Recebimento"
+SLIDE 3: "02 — Planilha"
+SLIDE 4: "03 — Corte CNC"
+SLIDE 5: "04 — Dobra"
+SLIDE 6: "05 — Conferência"
+SLIDE 7: "06 — Entrega"
+SLIDE 8: "Orçamento em 24h"`,
+legenda:`📐 DO PROJETO À OBRA: O caminho do seu aço
+
+Você sabia que seu aço passa por 6 etapas antes de chegar no canteiro?
+
+**O processo Belgo Pronto:**
+
+1️⃣ **RECEBIMENTO** — Analisamos seu projeto
+2️⃣ **PLANILHA** — Lista completa de peças
+3️⃣ **CORTE CNC** — Precisão milimétrica
+4️⃣ **DOBRA** — Formatos exatos
+5️⃣ **CONFERÊNCIA** — Peça a peça
+6️⃣ **ENTREGA** — Conforme seu cronograma
+
+**Resultado:**
+✅ Canteiro organizado
+✅ Equipe focada em montar
+✅ Sem desperdício
+✅ Prazo cumprido
+
+👉 Envie seu projeto e receba orçamento em 24h!
+
+📲 (21) 99812-2594
+
+#manchester #belgopronto #cortedobra #acocortadoodobrado #engenharia #construcaocivil #riodejaneiro`},
+
+{id:11,date:'2026-02-21',type:'ESTÁTICO',format:'Post estático',title:'🎯 PERDA ZERO: A promessa que a gente cumpre',desc:'Como o Belgo Pronto elimina desperdício de aço',
+narrativa:`POST ESTÁTICO — PERDA ZERO
+═══════════════════════════════════════
+
+HEADLINE: "PERDA ZERO"
+SUB: "A promessa que a gente cumpre."
+
+CORPO:
+Aço cortado sob medida = sem sobra na obra.
+Cada barra aproveitada. Cada centavo otimizado.
+
+DADOS:
+• Obras tradicionais perdem 10-15% de aço
+• Belgo Pronto Manchester: perda < 1%
+• Em 100 ton = 10-15 ton economizadas
+• Economia de R$ 50-100 mil por obra
+
+CTA: "Quanto você já perdeu comprando errado?"
+CONTATO: 📲 (21) 99812-2594`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Minimalist conceptual image showing perfectly cut steel pieces with zero waste.
+
+COMPOSITION:
+- Clean white/light background
+- Precisely cut rebar pieces arranged perfectly
+- No scraps visible
+- "0%" or "ZERO" visual element
+- Balance/scale imagery optional
+
+STYLE:
+- Product photography meets conceptual art
+- 8K quality, 1:1 format
+- Minimalist, clean, precise
+
+MOOD:
+- Precision, perfection, zero waste
+- Professional, confident`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+PERDA ZERO
+
+A promessa que a gente cumpre.
+
+Obras tradicionais: 10-15% de perda
+Belgo Pronto: < 1%
+
+Em 100 ton = até R$ 100.000 economizados
+
+Quanto você já perdeu?`,
+legenda:`🎯 PERDA ZERO — A promessa que a gente cumpre.
+
+Você sabia que obras tradicionais perdem 10% a 15% de aço?
+
+Em 100 toneladas = até 15 toneladas jogadas fora.
+Em reais? Pode passar de R$ 100.000 de prejuízo.
+
+**Com Belgo Pronto Manchester:**
+✅ Aço cortado conforme projeto = sem sobra
+✅ Dobra automatizada = sem retrabalho
+✅ Planilha otimizada = cada barra aproveitada
+
+**Resultado:** Perda próxima de ZERO.
+
+💰 O dinheiro economizado no aço, você investe em outra etapa.
+
+👉 Quanto você já perdeu comprando errado?
+
+📲 (21) 99812-2594
+
+#manchester #belgopronto #perdazero #economia #construcaocivil #engenharia #riodejaneiro`},
+
+{id:12,date:'2026-02-24',type:'CARROSSEL',format:'Carrossel 7 slides',title:'🤔 GRADIL vs TELA SOLDADA: Comparativo técnico definitivo',desc:'Quando usar gradil e quando usar tela em cercamentos',
+narrativa:`CARROSSEL — GRADIL VS TELA
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+"GRADIL vs TELA SOLDADA"
+"Comparativo técnico definitivo"
+
+SLIDE 2 — GRADIL
+"Painel rígido autoportante."
+"Malhas: 5x20cm, 10x1,27cm"
+"Ex: Nylofor, Securifor"
+
+SLIDE 3 — TELA
+"Tela flexível em rolos."
+"Malhas: 5x5, 5x10, 5x15cm"
+"Ex: Fortinet, Practica"
+
+SLIDE 4 — SEGURANÇA
+| Gradil: ★★★★★ | Tela: ★★★ |
+
+SLIDE 5 — CUSTO/INSTALAÇÃO
+| Gradil: $$$ | Tela: $$ |
+
+SLIDE 6 — QUANDO USAR
+GRADIL → Segurança máxima, estética
+TELA → Terreno irregular, economia
+
+SLIDE 7 — CTA
+"Não sabe qual escolher?"
+"Consultoria gratuita Manchester"`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Split composition: Nylofor gradil panel (left) versus Fortinet/Practica mesh roll (right). Clean background, professional product photography showing structural differences clearly.
+
+SLIDES 2-6 — COMPARATIVO:
+Infographic style with product photos, ratings, comparison tables. Dark background with clear typography.
+
+SLIDE 7 — CTA:
+Manchester branding, consultation imagery.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "GRADIL vs TELA SOLDADA"
+SLIDE 2: "Gradil — rígido, autoportante"
+SLIDE 3: "Tela — flexível, rolos"
+SLIDE 4: "Segurança ★★★★★ vs ★★★"
+SLIDE 5: "Custo $$$ vs $$"
+SLIDE 6: "Quando usar cada"
+SLIDE 7: "Consultoria gratuita"`,
+legenda:`🤔 GRADIL ou TELA SOLDADA?
+
+**GRADIL** (Nylofor, Securifor):
+✅ Painel rígido autoportante
+✅ Segurança máxima
+✅ Estética superior
+✅ Ideal: empresas, condomínios
+
+**TELA SOLDADA** (Fortinet, Practica):
+✅ Flexível, adapta terrenos
+✅ Custo-benefício excelente
+✅ Ideal: rural, esportivo, economia
+
+📊 **Resumo:**
+• Segurança máxima? → GRADIL
+• Terreno irregular? → TELA
+• Estética? → GRADIL
+• Economia? → TELA
+
+Arraste e veja o comparativo! 👆
+
+📲 (21) 99812-2594
+
+#manchester #cercamento #gradil #telasoldada #nylofor #fortinet #belgobekaert #riodejaneiro`},
+
+{id:13,date:'2026-02-25',type:'ESTÁTICO',format:'Post estático',title:'🆚 FORTINET vs PRACTICA: Qual tela é a sua?',desc:'Comparativo entre as duas principais linhas de tela Belgo',
+narrativa:`POST ESTÁTICO — FORTINET VS PRACTICA
+═══════════════════════════════════════
+
+HEADLINE: "FORTINET vs PRACTICA"
+SUB: "Qual tela é a sua?"
+
+COMPARATIVO:
+| FORTINET | PRACTICA |
+| PVC Alta Aderência | Tripla Galvanização |
+| Máxima durabilidade | Excelente durabilidade |
+| Litoral OK | Custo-benefício |
+| Premium | Versátil |
+
+RESUMO:
+🌊 Litoral/Premium → FORTINET
+💵 Economia/Versátil → PRACTICA`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Split product photography: Fortinet roll (green PVC, left) versus Practica roll (galvanized silver, right).
+
+COMPOSITION:
+- Clean background
+- Both products clearly showing coating difference
+- Labels/branding visible
+- Professional product comparison layout
+
+STYLE:
+- Product comparison photography
+- 8K quality, 1:1 format
+- Clean, professional`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+FORTINET vs PRACTICA
+
+FORTINET®
+• PVC Alta Aderência
+• Litoral OK
+• Premium
+
+PRACTICA®
+• 3x Zinco
+• Custo-benefício
+• Versátil`,
+legenda:`🆚 FORTINET ou PRACTICA?
+
+**BELGO FORTINET®** 🏆
+• Revestimento PVC alta aderência
+• Durabilidade máxima — LITORAL OK
+• Acabamento premium
+
+**BELGO PRACTICA®** 💰
+• Tripla galvanização (3x Zinco)
+• Excelente durabilidade
+• Melhor custo-benefício
+
+**Resumo:**
+🌊 Mora no litoral? → FORTINET
+💵 Precisa de economia? → PRACTICA
+
+Ambas são Belgo Bekaert. Ambas são excelentes.
+
+📲 (21) 99812-2594
+
+#manchester #fortinet #practica #telasoldada #cercamento #belgobekaert #riodejaneiro`},
+
+{id:14,date:'2026-02-26',type:'ESTÁTICO',format:'Post estático',title:'🏗️ RADIER: A base que sustenta tudo',desc:'Especificações técnicas de tela para radier',
+narrativa:`POST ESTÁTICO — RADIER
+═══════════════════════════════════════
+
+HEADLINE: "RADIER"
+SUB: "A base que sustenta tudo."
+
+DEFINIÇÃO:
+Fundação rasa que distribui cargas uniformemente no solo.
+Ideal para solos fracos e terrenos úmidos.
+
+APLICAÇÕES:
+• Solos com baixa capacidade de carga
+• Lençol freático alto
+• Galpões, residências, industriais
+
+ESPECIFICAÇÕES:
+• Tela soldada: 15x15 ou 10x10cm
+• Bitola: 4,2 a 6,0mm
+• Concreto: fck 20 MPa
+• Espessura: 15 a 30cm
+
+CTA: "Precisa de tela pra radier? Pronta entrega Manchester."`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Technical cross-section illustration of radier foundation showing welded wire mesh inside concrete slab.
+
+COMPOSITION:
+- Cutaway view showing layers
+- Compacted soil, membrane, mesh, concrete
+- Columns rising from slab
+- Measurements visible
+
+STYLE:
+- Technical illustration meets 3D render
+- 8K quality, 1:1 format
+- Earth tones, steel silver, Manchester red accents`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+RADIER
+A base que sustenta tudo.
+
+📋 ESPECIFICAÇÕES:
+• Tela: 15x15 ou 10x10cm
+• Bitola: 4,2 a 6,0mm
+• Concreto: fck 20 MPa
+
+Pronta entrega Manchester
+📲 (21) 99812-2594`,
+legenda:`🏗️ RADIER — A base que sustenta tudo.
+
+Fundação rasa que distribui cargas uniformemente no solo.
+
+**Quando usar?**
+✅ Solo com baixa capacidade
+✅ Lençol freático alto
+✅ Galpões, residências, industriais
+
+**Especificações típicas:**
+📐 Tela soldada: 15x15 ou 10x10cm
+📐 Bitola: 4,2 a 6,0mm
+📐 Concreto: fck 20 MPa
+
+**Por que usar tela soldada?**
+• Distribuição uniforme
+• Montagem 50% mais rápida
+• Conformidade NBR 6118
+
+📍 Manchester tem tela em pronta entrega!
+
+📲 (21) 99812-2594
+
+#manchester #radier #fundacao #telasoldada #construcaocivil #engenharia #riodejaneiro`},
+
+{id:15,date:'2026-02-27',type:'CARROSSEL',format:'Carrossel 6 slides',title:'🏗️ CANTEIRO ORGANIZADO: Antes e depois do Belgo Pronto',desc:'Transformação do canteiro com aço cortado e dobrado',
+narrativa:`CARROSSEL — CANTEIRO ORGANIZADO
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+"CANTEIRO ORGANIZADO"
+"Antes e depois do Belgo Pronto"
+
+SLIDE 2 — ANTES (CAOS)
+❌ Vergalhões espalhados
+❌ Equipe procurando peças
+❌ Retrabalho de corte
+❌ Perda de material
+
+SLIDE 3 — CONSEQUÊNCIAS
+😤 Equipe improdutiva
+💸 Desperdício
+⏰ Atrasos
+😰 Estresse
+
+SLIDE 4 — DEPOIS (ORGANIZADO)
+✅ Peças organizadas por elemento
+✅ Cada vergalhão etiquetado
+✅ Sequência de montagem definida
+✅ Equipe focada em MONTAR
+
+SLIDE 5 — BENEFÍCIOS
+📈 Produtividade sobe
+📉 Desperdício cai
+⏰ Prazo cumprido
+😌 Estresse eliminado
+
+SLIDE 6 — CTA
+"Qual canteiro você quer?"
+"Envie seu projeto!"
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Split image: chaotic construction site (left, desaturated) versus organized site (right, bright). Dramatic before/after contrast.
+
+SLIDES 2-3 — ANTES:
+Documentary photography of messy construction site. Scattered rebar, confused workers, waste visible. Desaturated, "problem" aesthetic.
+
+SLIDES 4-5 — DEPOIS:
+Professional photography of organized site. Tagged steel, efficient workers, clean layout. Bright, "solution" aesthetic.
+
+SLIDE 6 — CTA:
+Manchester branding with transformation imagery.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "CANTEIRO ORGANIZADO"
+SLIDE 2: "❌ ANTES — caos"
+SLIDE 3: "Consequências — prejuízo"
+SLIDE 4: "✅ DEPOIS — organização"
+SLIDE 5: "Benefícios"
+SLIDE 6: "Envie seu projeto!"`,
+legenda:`🏗️ CANTEIRO ORGANIZADO: Antes e depois
+
+**❌ ANTES:**
+Vergalhões espalhados. Equipe procurando. Cortes improvisados. Sobras virando sucata.
+
+**✅ DEPOIS (Belgo Pronto):**
+Peças organizadas. Cada vergalhão etiquetado. Sequência definida. Equipe focada em MONTAR.
+
+**O que muda?**
+📈 Produtividade sobe
+📉 Desperdício cai
+⏰ Prazo cumprido
+😌 Estresse eliminado
+
+👉 Envie seu projeto e transforme o caos em organização!
+
+📲 (21) 99812-2594
+
+#manchester #belgopronto #canteiroobras #organizacao #construcaocivil #engenharia #riodejaneiro`},
+
+{id:16,date:'2026-02-28',type:'ESTÁTICO',format:'Post estático',title:'🔒 SECURIFOR vs NYLOFOR: Alta segurança ou equilíbrio perfeito?',desc:'Comparativo entre gradis premium Belgo Bekaert',
+narrativa:`POST ESTÁTICO — SECURIFOR VS NYLOFOR
+═══════════════════════════════════════
+
+HEADLINE: "SECURIFOR vs NYLOFOR"
+SUB: "Alta segurança ou equilíbrio perfeito?"
+
+COMPARATIVO:
+| SECURIFOR | NYLOFOR |
+| Malha 10x1,27cm | Malha 5x20cm |
+| Anti-escalada máxima | Alta segurança |
+| Industrial | Design moderno |
+| Presídios, aeroportos | Empresas, condomínios |
+
+RESUMO:
+🔐 Segurança crítica → SECURIFOR
+🏢 Estética + segurança → NYLOFOR`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Split product photography: Securifor panel (ultra-dense mesh, galvanized, left) versus Nylofor panel (modern design, green PVC, right).
+
+COMPOSITION:
+- Professional lighting showing mesh density difference
+- Both panels clearly identifiable
+- Clean comparison layout
+- Belgo Bekaert branding
+
+STYLE:
+- Premium product comparison
+- 8K quality, 1:1 format`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+SECURIFOR vs NYLOFOR
+
+SECURIFOR®
+• Malha 10x1,27cm
+• Anti-escalada MÁXIMA
+• Presídios, aeroportos
+
+NYLOFOR®
+• Malha 5x20cm
+• Design moderno
+• Empresas, condomínios`,
+legenda:`🔒 SECURIFOR ou NYLOFOR?
+
+**SECURIFOR®** 🛡️
+• Malha ultra-fechada (10x1,27cm)
+• Anti-escalada MÁXIMA
+• Anti-corte MÁXIMO
+• Para: presídios, aeroportos, data centers
+
+**NYLOFOR®** ✨
+• Malha 5x20cm
+• Segurança robusta + design moderno
+• Cores variadas
+• Para: empresas, condomínios, indústrias
+
+**Resumo:**
+🔐 Segurança crítica? → SECURIFOR
+🏢 Estética + segurança? → NYLOFOR
+
+Manchester = Belgo Bekaert há 30+ anos.
+
+📲 (21) 99812-2594
+
+#manchester #securifor #nylofor #gradil #cercamento #altaseguranca #belgobekaert #riodejaneiro`}
+],
+3: [
+{id:1,date:'2026-03-02',type:'REELS',format:'Reels 45s',title:'🔧 5 ferramentas que todo armador precisa ter',desc:'O kit essencial para trabalhar com aço na obra',
+narrativa:`ROTEIRO REELS — FERRAMENTAS DO ARMADOR
+═══════════════════════════════════════
+
+[0:00-0:05] GANCHO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA: "KIT DO ARMADOR PROFISSIONAL"
+NARRAÇÃO: "Você sabe quais ferramentas todo armador precisa ter?"
+
+[0:05-0:35] AS 5 FERRAMENTAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. TORQUÊS (0:05-0:11)
+TEXTO: "1. TORQUÊS"
+NARRAÇÃO: "Torquês: pra cortar arame recozido e fazer amarrações."
+VISUAL: Close na torquês cortando arame
+
+2. CHAVE DE DOBRA (0:11-0:17)
+TEXTO: "2. CHAVE DE DOBRA"
+NARRAÇÃO: "Chave de dobra: pra fazer ganchos e dobras em barras finas."
+VISUAL: Chave dobrando vergalhão
+
+3. ESPAÇADORES (0:17-0:23)
+TEXTO: "3. ESPAÇADORES"
+NARRAÇÃO: "Espaçadores: garantem o cobrimento correto da armadura."
+VISUAL: Espaçadores sendo posicionados
+
+4. TRENA E METRO (0:23-0:29)
+TEXTO: "4. TRENA E METRO"
+NARRAÇÃO: "Trena e metro: medição é tudo. Errou a medida, perdeu material."
+VISUAL: Medindo vergalhão
+
+5. ARAME RECOZIDO (0:29-0:35)
+TEXTO: "5. ARAME RECOZIDO"
+NARRAÇÃO: "Arame recozido: o que une tudo. Sem ele, nada fica no lugar."
+VISUAL: Amarração sendo feita
+
+[0:35-0:45] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "MANCHESTER TEM TUDO ISSO"
+NARRAÇÃO: "Tudo isso você encontra na Manchester. Aço, arame, espaçadores."
+VISUAL: Produtos no galpão + logo`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Flat lay photography of essential rebar worker (armador) tools arranged on concrete surface.
+
+COMPOSITION:
+- Bird's eye view of tools arranged aesthetically
+- Items: torquês, chave de dobra, espaçadores, trena, arame recozido
+- Clean concrete background with subtle texture
+- Tools arranged in circular or grid pattern
+- Manchester branding subtle in corner
+
+LIGHTING:
+- Soft, even lighting from above
+- No harsh shadows
+- Industrial workshop aesthetic
+
+STYLE:
+- Product photography meets tool organization
+- 8K quality, 9:16 format for Reels
+- Clean, professional, educational`,
+video:`DIREÇÃO DE VÍDEO — 45 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:05) — ABERTURA
+- Mesa de trabalho com ferramentas cobertas
+- Mão remove pano revelando kit completo
+- Som: revelação dramática
+
+TAKE 2-6 — CADA FERRAMENTA
+- Close em cada ferramenta sendo usada
+- Demonstração prática de cada uma
+- Cortes rápidos, dinâmicos
+
+TAKE 7 (0:35-0:45) — CTA
+- Galpão Manchester com produtos
+- Logo + contato
+- "Tudo pra sua obra"`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "KIT DO ARMADOR PROFISSIONAL"
+CENA 2: "1. TORQUÊS — cortar arame"
+CENA 3: "2. CHAVE DE DOBRA — fazer ganchos"
+CENA 4: "3. ESPAÇADORES — cobrimento certo"
+CENA 5: "4. TRENA — medir é tudo"
+CENA 6: "5. ARAME RECOZIDO — une tudo"
+CENA 7: "Manchester tem TUDO"`,
+legenda:`🔧 KIT DO ARMADOR PROFISSIONAL
+
+Todo armador que se preza tem essas 5 ferramentas:
+
+1️⃣ **TORQUÊS** — Cortar arame recozido e fazer amarrações
+2️⃣ **CHAVE DE DOBRA** — Fazer ganchos e dobras em barras finas
+3️⃣ **ESPAÇADORES** — Garantir cobrimento correto (NBR 6118)
+4️⃣ **TRENA/METRO** — Medição precisa = zero desperdício
+5️⃣ **ARAME RECOZIDO** — O que une toda a armadura
+
+Faltou alguma? Comenta aí! 👇
+
+📍 Na Manchester você encontra tudo: aço, arame, espaçadores e mais.
+
+📲 (21) 99812-2594
+
+#manchester #armador #ferramentas #construcaocivil #obra #aco #vergalhao #riodejaneiro`},
+
+{id:2,date:'2026-03-04',type:'CARROSSEL',format:'Carrossel 6 slides',title:'📏 BITOLAS DE AÇO: Guia completo de 5mm a 32mm',desc:'Qual bitola usar em cada elemento estrutural',
+narrativa:`CARROSSEL — BITOLAS DE AÇO
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "BITOLAS DE AÇO"
+SUBTÍTULO: "Guia completo: 5mm a 32mm"
+VISUAL: Vergalhões de diferentes diâmetros organizados
+
+SLIDE 2 — BITOLAS FINAS (5-8mm)
+"5,0mm | 6,3mm | 8,0mm"
+APLICAÇÕES:
+• Estribos de vigas e pilares
+• Armadura de lajes
+• Amarrações e reforços
+
+SLIDE 3 — BITOLAS MÉDIAS (10-12,5mm)
+"10,0mm | 12,5mm"
+APLICAÇÕES:
+• Armadura principal de lajes
+• Vigas de pequeno/médio porte
+• Pilares residenciais
+
+SLIDE 4 — BITOLAS GROSSAS (16-20mm)
+"16,0mm | 20,0mm"
+APLICAÇÕES:
+• Vigas principais
+• Pilares estruturais
+• Fundações
+
+SLIDE 5 — BITOLAS ESPECIAIS (25-32mm)
+"25,0mm | 32,0mm"
+APLICAÇÕES:
+• Grandes estruturas
+• Pontes e viadutos
+• Obras industriais
+
+SLIDE 6 — CTA
+"Precisa de aço na bitola certa?"
+"Manchester tem todas. Pronta entrega."
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Artistic arrangement of steel rebars of different diameters (5mm to 32mm) showing size progression. Cross-section view visible. Industrial lighting, dark background, Manchester red accent.
+
+SLIDES 2-5 — BITOLAS:
+Clean infographic style showing rebar cross-sections at actual scale comparison. Applications listed with icons. Professional technical illustration.
+
+SLIDE 6 — CTA:
+Manchester warehouse with organized rebar inventory by diameter.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "BITOLAS DE AÇO — 5mm a 32mm"
+SLIDE 2: "FINAS 5-8mm → estribos, lajes"
+SLIDE 3: "MÉDIAS 10-12,5mm → vigas, pilares"
+SLIDE 4: "GROSSAS 16-20mm → estrutural"
+SLIDE 5: "ESPECIAIS 25-32mm → grandes obras"
+SLIDE 6: "Todas na Manchester"`,
+legenda:`📏 BITOLAS DE AÇO: Guia completo
+
+Sabe qual bitola usar em cada situação?
+
+**FINAS (5,0 a 8,0mm):**
+• Estribos de vigas e pilares
+• Armadura de lajes
+• Amarrações
+
+**MÉDIAS (10,0 a 12,5mm):**
+• Armadura principal de lajes
+• Vigas pequenas/médias
+• Pilares residenciais
+
+**GROSSAS (16,0 a 20,0mm):**
+• Vigas principais
+• Pilares estruturais
+• Fundações
+
+**ESPECIAIS (25,0 a 32,0mm):**
+• Grandes estruturas
+• Pontes e viadutos
+• Obras industriais
+
+Salva esse post pra consultar depois! 📌
+
+📲 (21) 99812-2594
+
+#manchester #bitola #aco #vergalhao #engenharia #construcaocivil #estrutura #riodejaneiro`},
+
+{id:3,date:'2026-03-06',type:'ESTÁTICO',format:'Post estático',title:'👷‍♀️ Elas também constroem: Engenheiras que inspiram',desc:'Prévia do Dia da Mulher - mulheres na engenharia civil',
+narrativa:`POST ESTÁTICO — MULHERES NA ENGENHARIA
+═══════════════════════════════════════
+
+HEADLINE: "ELAS TAMBÉM CONSTROEM"
+SUB: "Engenheiras que inspiram o Brasil"
+
+DADOS:
+• 30% dos engenheiros formados são mulheres
+• Presença feminina na construção cresceu 5x em 20 anos
+• Liderança feminina em grandes obras aumenta a cada ano
+
+MENSAGEM:
+"Na Manchester, a gente sabe: competência não tem gênero.
+E a construção civil só tem a ganhar com mais diversidade."
+
+CTA: "Marca uma engenheira que te inspira! 👇"`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Professional portrait photography of female civil engineer on construction site.
+
+COMPOSITION:
+- Confident woman engineer in hard hat and safety vest
+- Construction site background (steel structure visible)
+- Holding blueprints or tablet
+- Power pose, professional demeanor
+- Space for text overlay on left or top
+
+LIGHTING:
+- Golden hour, empowering light
+- Rim light creating heroic silhouette
+- Warm, inspiring mood
+
+STYLE:
+- Editorial/documentary photography
+- 8K quality, 1:1 format
+- Empowering, professional, modern
+
+MOOD:
+- Strength, competence, inspiration
+- Breaking stereotypes`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+ELAS TAMBÉM CONSTROEM
+
+Engenheiras que inspiram o Brasil
+
+30% dos engenheiros formados são mulheres
+Presença feminina cresceu 5x em 20 anos
+
+Competência não tem gênero.
+
+Marca uma engenheira que te inspira! 👇`,
+legenda:`👷‍♀️ ELAS TAMBÉM CONSTROEM
+
+A construção civil está mudando. E as mulheres fazem parte dessa transformação.
+
+📊 **Os números mostram:**
+• 30% dos engenheiros formados hoje são mulheres
+• Presença feminina na construção cresceu 5x em 20 anos
+• Cada vez mais mulheres lideram grandes obras
+
+Na Manchester, a gente sabe: **competência não tem gênero**.
+
+E a construção civil só tem a ganhar com mais diversidade, mais perspectivas, mais talento.
+
+👉 Marca uma engenheira que te inspira nos comentários!
+
+📲 (21) 99812-2594
+
+#manchester #mulheresnaengenharia #engenheiracivil #construcaocivil #diadamulher #mulheresqueconstroem #riodejaneiro`},
+
+{id:4,date:'2026-03-08',type:'CARROSSEL',format:'Carrossel 5 slides',title:'💪 DIA DA MULHER: Homenagem às mulheres da construção',desc:'Celebração do Dia Internacional da Mulher na construção civil',
+narrativa:`CARROSSEL — DIA DA MULHER
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "8 DE MARÇO"
+SUBTÍTULO: "Dia Internacional da Mulher"
+VISUAL: Silhueta feminina com capacete, fundo vermelho/dourado Manchester
+
+SLIDE 2 — ENGENHEIRAS
+"Elas projetam o futuro."
+VISUAL: Engenheira analisando projeto
+DESTAQUE: Planejamento, cálculo, precisão
+
+SLIDE 3 — ARQUITETAS
+"Elas desenham sonhos."
+VISUAL: Arquiteta no canteiro
+DESTAQUE: Criatividade, funcionalidade, beleza
+
+SLIDE 4 — MESTRAS DE OBRA
+"Elas lideram com competência."
+VISUAL: Mestra coordenando equipe
+DESTAQUE: Liderança, experiência, respeito
+
+SLIDE 5 — HOMENAGEM
+"A Manchester celebra todas as mulheres que constroem o Brasil."
+"Obrigado por fazerem a diferença."
+Logo Manchester + 💐`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Elegant commemorative graphic for International Women's Day. Silhouette of woman wearing hard hat against gradient red/gold background. Flowers subtle in corners. Typography: "8 DE MARÇO" prominent.
+
+SLIDES 2-4 — PROFISSIONAIS:
+Documentary-style portraits of women in construction: engineer with blueprints, architect on site, forewoman leading team. Golden hour lighting, empowering poses. Each with subtle floral elements.
+
+SLIDE 5 — HOMENAGEM:
+Manchester branding with elegant floral arrangement. Thank you message. Corporate but warm aesthetic.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "8 DE MARÇO — Dia da Mulher"
+SLIDE 2: "Engenheiras — projetam o futuro"
+SLIDE 3: "Arquitetas — desenham sonhos"
+SLIDE 4: "Mestras — lideram com competência"
+SLIDE 5: "Obrigado por construírem o Brasil"`,
+legenda:`💪 8 DE MARÇO — DIA INTERNACIONAL DA MULHER
+
+Hoje celebramos todas as mulheres que constroem o Brasil.
+
+👷‍♀️ **ENGENHEIRAS** — Que projetam o futuro com precisão
+👷‍♀️ **ARQUITETAS** — Que desenham sonhos e funcionalidade
+👷‍♀️ **MESTRAS DE OBRA** — Que lideram com competência e respeito
+👷‍♀️ **OPERÁRIAS** — Que executam com dedicação e força
+
+A construção civil é feita de pessoas. E as mulheres fazem toda a diferença.
+
+**Feliz Dia da Mulher!** 💐
+
+A Manchester celebra e agradece cada uma de vocês.
+
+📲 (21) 99812-2594
+
+#manchester #diadamulher #8demarco #mulheresnaengenharia #construcaocivil #engenheiracivil #arquitetura #riodejaneiro`},
+
+{id:5,date:'2026-03-10',type:'REELS',format:'Reels 30s',title:'⚡ Aço CA-25 vs CA-50 vs CA-60: Qual usar?',desc:'Diferenças entre os tipos de aço para construção',
+narrativa:`ROTEIRO REELS — TIPOS DE AÇO
+═══════════════════════════════════════
+
+[0:00-0:03] GANCHO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA: "CA-25? CA-50? CA-60?"
+NARRAÇÃO: "Você sabe a diferença entre CA-25, CA-50 e CA-60?"
+
+[0:03-0:10] CA-25
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "CA-25 — AÇO LISO"
+NARRAÇÃO: "CA-25: aço liso, mais maleável. Usado em fundações e estacas."
+VISUAL: Barra lisa, close na superfície
+
+[0:10-0:18] CA-50
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "CA-50 — AÇO NERVURADO"
+NARRAÇÃO: "CA-50: nervurado, alta resistência. O mais usado em vigas, pilares e lajes."
+VISUAL: Barra nervurada, destaque nas nervuras
+
+[0:18-0:25] CA-60
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "CA-60 — TELAS E TRELIÇAS"
+NARRAÇÃO: "CA-60: fios de aço pra telas soldadas e treliças. Alta resistência em bitolas finas."
+VISUAL: Tela soldada, treliça
+
+[0:25-0:30] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "MANCHESTER TEM TODOS"
+NARRAÇÃO: "Todos os tipos, todas as bitolas. Manchester."
+VISUAL: Logo + contato`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Comparison shot of three types of steel rebar: CA-25 (smooth), CA-50 (ribbed), CA-60 (wire mesh).
+
+COMPOSITION:
+- Three sections showing each type clearly
+- Close-up texture visible (smooth vs ribbed)
+- Labels overlaid: CA-25, CA-50, CA-60
+- Dark industrial background
+
+LIGHTING:
+- Dramatic side lighting showing texture differences
+- Metallic highlights
+
+STYLE:
+- Technical product comparison
+- 8K quality, 9:16 format
+- Educational, clear`,
+video:`DIREÇÃO DE VÍDEO — 30 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:03) — GANCHO
+- Three bars side by side
+- Text appears questioning
+
+TAKE 2 (0:03-0:10) — CA-25
+- Close-up of smooth bar
+- Hand running along surface showing smoothness
+- Application footage: foundation
+
+TAKE 3 (0:10-0:18) — CA-50
+- Close-up of ribbed bar
+- Finger tracing the ribs
+- Application footage: columns, beams
+
+TAKE 4 (0:18-0:25) — CA-60
+- Tela soldada and treliça
+- Installation in slab
+
+TAKE 5 (0:25-0:30) — CTA
+- Manchester warehouse
+- All products visible
+- Logo + contact`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "CA-25? CA-50? CA-60?"
+CENA 2: "CA-25 — Liso — Fundações"
+CENA 3: "CA-50 — Nervurado — Estrutural"
+CENA 4: "CA-60 — Telas/Treliças"
+CENA 5: "Manchester tem TODOS"`,
+legenda:`⚡ CA-25 vs CA-50 vs CA-60
+
+Você sabe a diferença?
+
+**CA-25 — AÇO LISO**
+• Superfície lisa, mais maleável
+• Uso: fundações, estacas, chumbadores
+• Fácil de dobrar manualmente
+
+**CA-50 — AÇO NERVURADO**
+• Superfície com nervuras (melhor aderência)
+• Uso: vigas, pilares, lajes, fundações
+• O MAIS USADO na construção civil
+
+**CA-60 — FIOS E TELAS**
+• Alta resistência em bitolas finas
+• Uso: telas soldadas, treliças
+• Ideal para lajes e pisos
+
+Salva esse post! 📌
+
+📲 (21) 99812-2594
+
+#manchester #aco #ca50 #ca60 #ca25 #vergalhao #construcaocivil #engenharia #riodejaneiro`},
+
+{id:6,date:'2026-03-12',type:'ESTÁTICO',format:'Post estático',title:'🏠 CERCA RESIDENCIAL: Nylofor é a escolha certa',desc:'Por que Nylofor é ideal para residências e condomínios',
+narrativa:`POST ESTÁTICO — NYLOFOR RESIDENCIAL
+═══════════════════════════════════════
+
+HEADLINE: "CERCA RESIDENCIAL?"
+SUB: "Nylofor é a escolha certa."
+
+BENEFÍCIOS NYLOFOR:
+✅ Design moderno e discreto
+✅ Alta durabilidade (PVC + galvanização)
+✅ Variedade de cores (verde, preto, cinza)
+✅ Fácil instalação
+✅ Segurança sem "cara de prisão"
+
+APLICAÇÕES:
+• Casas e sobrados
+• Condomínios horizontais
+• Áreas de lazer
+• Escolas e creches
+
+CTA: "Quer ver o Nylofor no seu projeto?"
+📲 (21) 99812-2594`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Architectural photography of modern residence with Nylofor fence installed.
+
+COMPOSITION:
+- Beautiful house with green/black Nylofor fence
+- Garden visible through mesh
+- Modern architecture
+- Sunset/golden hour lighting
+
+LIGHTING:
+- Warm residential lighting
+- Welcoming atmosphere
+- Professional real estate photography style
+
+STYLE:
+- Architectural/lifestyle photography
+- 8K quality, 1:1 format
+- Aspirational, modern living
+
+MOOD:
+- Security with elegance
+- Modern, clean, safe`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+CERCA RESIDENCIAL?
+
+NYLOFOR
+
+✅ Design moderno
+✅ Alta durabilidade
+✅ Várias cores
+✅ Segurança elegante
+
+📲 (21) 99812-2594`,
+legenda:`🏠 CERCA RESIDENCIAL? NYLOFOR É A ESCOLHA CERTA.
+
+Por que o Nylofor domina o mercado residencial?
+
+✅ **Design moderno** — Estética clean, sem "cara de prisão"
+✅ **Durabilidade** — PVC + galvanização = décadas de vida útil
+✅ **Cores** — Verde, preto, cinza, branco
+✅ **Instalação** — Sistema modular, rápido de montar
+✅ **Segurança** — Difícil escalar, fácil monitorar
+
+**Ideal para:**
+• Casas e sobrados
+• Condomínios horizontais
+• Áreas de lazer
+• Escolas e creches
+
+👉 Manchester instala Nylofor em todo Rio de Janeiro.
+
+📲 (21) 99812-2594
+
+#manchester #nylofor #cercamento #cercaresidencial #condominio #seguranca #belgobekaert #riodejaneiro`},
+
+{id:7,date:'2026-03-14',type:'REELS',format:'Reels 45s',title:'🎯 O segredo da armadura perfeita: espaçamento correto',desc:'Como o espaçamento entre barras afeta a estrutura',
+narrativa:`ROTEIRO REELS — ESPAÇAMENTO
+═══════════════════════════════════════
+
+[0:00-0:05] GANCHO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA: "ARMADURA PERFEITA?"
+NARRAÇÃO: "Quer uma armadura perfeita? O segredo tá no espaçamento."
+
+[0:05-0:15] PROBLEMA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "ESPAÇAMENTO ERRADO = ESTRUTURA FRACA"
+NARRAÇÃO: "Barras muito juntas: concreto não preenche. Muito afastadas: estrutura enfraquece."
+VISUAL: Exemplos visuais de espaçamento errado
+
+[0:15-0:30] REGRAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "NBR 6118 — ESPAÇAMENTO MÍNIMO"
+NARRAÇÃO: "A NBR 6118 define: espaçamento mínimo é o maior entre 2cm, diâmetro da barra, ou 1,2x agregado graúdo."
+VISUAL: Infográfico animado com as regras
+
+[0:30-0:38] SOLUÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "BELGO PRONTO: ESPAÇAMENTO CALCULADO"
+NARRAÇÃO: "No Belgo Pronto, o espaçamento já vem calculado conforme projeto."
+VISUAL: Armadura montada com espaçamento perfeito
+
+[0:38-0:45] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "DEIXA A ENGENHARIA COM A GENTE"
+NARRAÇÃO: "Envie seu projeto. A Manchester cuida do resto."
+VISUAL: Logo + contato`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Technical close-up of perfectly spaced rebar arrangement in concrete formwork.
+
+COMPOSITION:
+- Top-down view of rebar grid
+- Measuring tape showing spacing
+- Perfect parallel alignment visible
+- Professional construction site
+
+LIGHTING:
+- Clean, even lighting
+- Details clearly visible
+- Educational photography style
+
+STYLE:
+- Technical construction photography
+- 8K quality, 9:16 format
+- Precision and quality emphasized`,
+video:`DIREÇÃO DE VÍDEO — 45 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:05) — GANCHO
+- Beautiful finished structure
+- "Secret" reveal tone
+
+TAKE 2 (0:05-0:15) — PROBLEMA
+- Split screen: wrong spacing examples
+- Concrete failing to fill gaps
+- Structure weakness demo
+
+TAKE 3 (0:15-0:30) — REGRAS
+- Animated infographic showing NBR 6118 rules
+- Visual measurements overlay
+- Clear educational content
+
+TAKE 4 (0:30-0:38) — SOLUÇÃO
+- Belgo Pronto armadura being installed
+- Perfect spacing visible
+- Workers confirming measurements
+
+TAKE 5 (0:38-0:45) — CTA
+- Logo Manchester
+- Contact information`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "ARMADURA PERFEITA?"
+CENA 2: "Espaçamento errado = problema"
+CENA 3: "NBR 6118 — Espaçamento mínimo"
+CENA 4: "≥ 2cm | ≥ Ø barra | ≥ 1,2x agregado"
+CENA 5: "Belgo Pronto: calculado"
+CENA 6: "Envie seu projeto!"`,
+legenda:`🎯 O SEGREDO DA ARMADURA PERFEITA
+
+Não é só bitola. Não é só quantidade. É **ESPAÇAMENTO**.
+
+❌ **Barras muito juntas:**
+Concreto não consegue preencher = vazios = estrutura comprometida
+
+❌ **Barras muito afastadas:**
+Distribuição de esforços prejudicada = estrutura enfraquecida
+
+✅ **NBR 6118 define espaçamento mínimo:**
+• ≥ 2cm
+• ≥ diâmetro da barra
+• ≥ 1,2x dimensão do agregado graúdo
+
+*O maior valor entre esses três!*
+
+👉 No **Belgo Pronto**, o espaçamento já vem calculado conforme seu projeto.
+
+📲 (21) 99812-2594
+
+#manchester #belgopronto #espacamento #nbr6118 #armadura #engenharia #construcaocivil #riodejaneiro`},
+
+{id:8,date:'2026-03-17',type:'CARROSSEL',format:'Carrossel 7 slides',title:'🔐 GRADIL INDUSTRIAL: Nylofor vs Securifor para empresas',desc:'Qual gradil escolher para sua indústria',
+narrativa:`CARROSSEL — GRADIL INDUSTRIAL
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "GRADIL INDUSTRIAL"
+SUBTÍTULO: "Nylofor ou Securifor? Qual escolher?"
+
+SLIDE 2 — O DESAFIO
+"Indústrias precisam de:"
+• Segurança perimetral
+• Controle de acesso
+• Durabilidade extrema
+• Estética profissional
+
+SLIDE 3 — NYLOFOR INDUSTRIAL
+"Quando escolher Nylofor:"
+✅ Segurança robusta suficiente
+✅ Estética importa
+✅ Orçamento equilibrado
+✅ Ex: fábricas, galpões, CD
+
+SLIDE 4 — SECURIFOR INDUSTRIAL
+"Quando escolher Securifor:"
+✅ Segurança MÁXIMA
+✅ Risco de invasão alto
+✅ Ativos de alto valor
+✅ Ex: data centers, químicas, energia
+
+SLIDE 5 — COMPARATIVO TÉCNICO
+| Aspecto | Nylofor | Securifor |
+| Malha | 5x20cm | 10x1,27cm |
+| Anti-escalada | Alta | MÁXIMA |
+| Anti-corte | Alta | MÁXIMA |
+| Custo | $$ | $$$ |
+
+SLIDE 6 — CASOS DE USO
+• Nylofor: Indústrias, logística, comércio
+• Securifor: Críticos, alta segurança
+
+SLIDE 7 — CTA
+"Não sabe qual escolher?"
+"Consultoria GRATUITA Manchester"
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Industrial facility perimeter with professional gradil fencing. Split showing both Nylofor and Securifor options. Corporate industrial photography.
+
+SLIDES 2-6 — COMPARATIVO:
+Clean infographic style. Product photos, comparison tables, application examples. Professional B2B aesthetic.
+
+SLIDE 7 — CTA:
+Manchester corporate branding, consultation offer, professional photography.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "GRADIL INDUSTRIAL"
+SLIDE 2: "O desafio das indústrias"
+SLIDE 3: "NYLOFOR — equilibrado"
+SLIDE 4: "SECURIFOR — máxima segurança"
+SLIDE 5: "Comparativo técnico"
+SLIDE 6: "Casos de uso"
+SLIDE 7: "Consultoria gratuita"`,
+legenda:`🔐 GRADIL INDUSTRIAL: Qual escolher?
+
+Sua indústria precisa de cerca. Mas qual?
+
+**NYLOFOR** 🏭
+• Segurança robusta
+• Design profissional
+• Custo equilibrado
+• Para: fábricas, galpões, centros de distribuição
+
+**SECURIFOR** 🔒
+• Segurança MÁXIMA
+• Anti-escalada extrema
+• Anti-corte extremo
+• Para: data centers, químicas, energia, farmacêuticas
+
+**COMPARATIVO:**
+| | Nylofor | Securifor |
+| Malha | 5x20cm | 10x1,27cm |
+| Segurança | ★★★★ | ★★★★★ |
+
+👉 Não sabe qual escolher? Consultoria GRATUITA!
+
+📲 (21) 99812-2594
+
+#manchester #gradil #cercamentoindustrial #nylofor #securifor #segurancaperimetral #industria #belgobekaert #riodejaneiro`},
+
+{id:9,date:'2026-03-19',type:'ESTÁTICO',format:'Post estático',title:'📦 ESTOQUE MANCHESTER: Por que nunca falta aço aqui',desc:'A logística que garante disponibilidade de produtos',
+narrativa:`POST ESTÁTICO — ESTOQUE
+═══════════════════════════════════════
+
+HEADLINE: "POR QUE NUNCA FALTA AÇO NA MANCHESTER?"
+
+DADOS DO ESTOQUE:
+• 4 unidades estratégicas (RJ + MG)
+• Milhares de toneladas em estoque
+• Reposição semanal da ArcelorMittal
+• Todas as bitolas disponíveis
+
+VANTAGENS:
+✅ Pronta entrega garantida
+✅ Atendimento no mesmo dia
+✅ Logística própria
+✅ Frota dedicada
+
+CTA: "Urgente? Liga que a gente resolve."
+📲 (21) 99812-2594`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Impressive aerial or wide shot of Manchester steel warehouse with massive inventory.
+
+COMPOSITION:
+- Huge steel inventory organized by type/size
+- Forklift or crane in action
+- Scale impressive
+- Professional warehouse operations
+
+LIGHTING:
+- Industrial lighting
+- Clean, organized appearance
+- Professional corporate photography
+
+STYLE:
+- Industrial/logistics photography
+- 8K quality, 1:1 format
+- Trust-building, impressive scale
+
+MOOD:
+- Reliability, abundance, professionalism`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+NUNCA FALTA AÇO NA MANCHESTER
+
+4 unidades estratégicas
+Milhares de toneladas
+Reposição semanal
+
+✅ Pronta entrega
+✅ Logística própria
+
+📲 (21) 99812-2594`,
+legenda:`📦 POR QUE NUNCA FALTA AÇO NA MANCHESTER?
+
+Porque a gente se prepara pra isso.
+
+📍 **4 unidades estratégicas:**
+• Duque de Caxias - RJ
+• Volta Redonda - RJ
+• Três Rios - RJ
+• Juiz de Fora - MG
+
+📦 **Estoque robusto:**
+• Milhares de toneladas permanentes
+• Todas as bitolas (5mm a 32mm)
+• Reposição semanal ArcelorMittal
+
+🚛 **Logística própria:**
+• Frota dedicada
+• Entrega no mesmo dia (região metropolitana)
+• Rastreamento em tempo real
+
+Urgente? Liga que a gente resolve.
+
+📲 (21) 99812-2594
+
+#manchester #estoque #aco #distribuicao #logistica #prontaentrega #riodejaneiro #minasgerais`},
+
+{id:10,date:'2026-03-21',type:'REELS',format:'Reels 30s',title:'💡 Vergalhão enferrujou? Pode usar ou não?',desc:'Mito ou verdade sobre ferrugem no aço',
+narrativa:`ROTEIRO REELS — FERRUGEM NO AÇO
+═══════════════════════════════════════
+
+[0:00-0:05] GANCHO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO NA TELA: "VERGALHÃO ENFERRUJOU?"
+NARRAÇÃO: "O vergalhão enferrujou. Pode usar ou joga fora?"
+
+[0:05-0:12] RESPOSTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "DEPENDE DO TIPO DE FERRUGEM"
+NARRAÇÃO: "Depende! Existe ferrugem superficial e ferrugem profunda."
+VISUAL: Dois vergalhões lado a lado
+
+[0:12-0:20] SUPERFICIAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "SUPERFICIAL: PODE USAR ✅"
+NARRAÇÃO: "Ferrugem superficial é só uma camada fina. Não reduz a seção. Até ajuda na aderência."
+VISUAL: Vergalhão com ferrugem leve, escova removendo
+
+[0:20-0:27] PROFUNDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "PROFUNDA: DESCARTE ❌"
+NARRAÇÃO: "Ferrugem profunda com corrosão, cascas soltando? Descarte. A seção já foi comprometida."
+VISUAL: Vergalhão com corrosão severa
+
+[0:27-0:30] CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TEXTO: "NA DÚVIDA? COMPRA NOVO"
+VISUAL: Logo Manchester`,
+imagem:`PROMPT THUMBNAIL/CAPA
+═══════════════════════════════════════════════════════════════
+
+Close-up comparison of two rebars: one with surface rust (acceptable), one with deep corrosion (reject).
+
+COMPOSITION:
+- Split image showing both conditions
+- Clear visual difference
+- Checkmark on surface rust side
+- X mark on corroded side
+- Question mark overlay
+
+LIGHTING:
+- Even, clear lighting
+- Details visible
+- Educational photography
+
+STYLE:
+- Technical comparison
+- 8K quality, 9:16 format
+- Myth-busting aesthetic`,
+video:`DIREÇÃO DE VÍDEO — 30 SEGUNDOS
+═══════════════════════════════════════════════════════════════
+
+TAKE 1 (0:00-0:05) — GANCHO
+- Worker holding rusty rebar
+- Questioning expression
+- "Can I use this?"
+
+TAKE 2 (0:05-0:12) — COMPARAÇÃO
+- Two rebars side by side
+- One surface rust, one corroded
+
+TAKE 3 (0:12-0:20) — SUPERFICIAL OK
+- Close-up of surface rust
+- Wire brush cleaning it
+- "OK" graphic appears
+
+TAKE 4 (0:20-0:27) — PROFUNDA NÃO
+- Close-up of corrosion
+- Flaking, pitting visible
+- "NO" graphic appears
+
+TAKE 5 (0:27-0:30) — CTA
+- Manchester logo
+- "Na dúvida, compra novo"`,
+tela:`TEXTO NA TELA — CENA A CENA
+═══════════════════════════════════════
+
+CENA 1: "VERGALHÃO ENFERRUJOU?"
+CENA 2: "Depende da ferrugem..."
+CENA 3: "SUPERFICIAL ✅ Pode usar"
+CENA 4: "PROFUNDA ❌ Descarte"
+CENA 5: "Na dúvida? Compra novo"`,
+legenda:`💡 VERGALHÃO ENFERRUJOU. PODE USAR?
+
+Resposta: **DEPENDE!**
+
+✅ **FERRUGEM SUPERFICIAL:**
+• Camada fina, uniforme
+• Remove com escova de aço
+• Não reduz a seção da barra
+• Até melhora aderência ao concreto
+• **PODE USAR**
+
+❌ **FERRUGEM PROFUNDA:**
+• Corrosão com cascas soltando
+• Pitting (buracos) visível
+• Seção da barra reduzida
+• Resistência comprometida
+• **DESCARTE**
+
+**Teste rápido:** Passou a mão e só sujou? Superficial. Soltou cascas ou tem buracos? Profunda.
+
+Na dúvida? Compra novo. Segurança primeiro!
+
+📲 (21) 99812-2594
+
+#manchester #vergalhao #ferrugem #aco #construcaocivil #engenharia #dica #obra #riodejaneiro`},
+
+{id:11,date:'2026-03-25',type:'CARROSSEL',format:'Carrossel 6 slides',title:'🛡️ ALAMBRADO: A cerca versátil que você subestima',desc:'Aplicações e vantagens do alambrado tradicional',
+narrativa:`CARROSSEL — ALAMBRADO
+═══════════════════════════════════════
+
+SLIDE 1 — CAPA
+TÍTULO: "ALAMBRADO"
+SUBTÍTULO: "A cerca versátil que você subestima"
+
+SLIDE 2 — O QUE É
+"Tela de arame galvanizado entrelaçado."
+• Malhas: 5x5cm, 6x6cm, 7,5x7,5cm
+• Altura: 1m a 3m
+• Arame: 12 a 16 BWG
+
+SLIDE 3 — VANTAGENS
+✅ Custo acessível
+✅ Instalação rápida
+✅ Adapta a terrenos irregulares
+✅ Permite visibilidade
+✅ Ventilação natural
+
+SLIDE 4 — ONDE USAR
+• Quadras esportivas
+• Fazendas e sítios
+• Terrenos baldios
+• Áreas de contenção
+• Canteiros de obra
+
+SLIDE 5 — COMBINAÇÕES
+"Potencialize com:"
+• Mourões de concreto ou madeira
+• Arame farpado no topo
+• Concertina para segurança extra
+
+SLIDE 6 — CTA
+"Orçamento em 24h"
+📲 (21) 99812-2594`,
+imagem:`PROMPT SLIDES CARROSSEL
+═══════════════════════════════════════════════════════════════
+
+SLIDE 1 — CAPA:
+Classic chain link fence (alambrado) in rural/sports setting. Morning light, clean installation. Shows the product beautifully.
+
+SLIDES 2-5 — CONTEÚDO:
+Infographic style with product photos, application examples. Sports courts, farms, construction sites shown.
+
+SLIDE 6 — CTA:
+Manchester branding with alambrado product display.`,
+video:`N/A — Formato carrossel estático`,
+tela:`TEXTO NA TELA — SLIDE A SLIDE
+═══════════════════════════════════════
+
+SLIDE 1: "ALAMBRADO — versátil"
+SLIDE 2: "O que é — tela entrelaçada"
+SLIDE 3: "Vantagens — custo, rapidez"
+SLIDE 4: "Onde usar — quadras, fazendas"
+SLIDE 5: "Combine com mourões + arame"
+SLIDE 6: "Orçamento 24h"`,
+legenda:`🛡️ ALAMBRADO: A cerca versátil que você subestima
+
+Simples? Sim. Eficiente? MUITO.
+
+**O QUE É:**
+Tela de arame galvanizado entrelaçado. Clássica, resistente, democrática.
+
+**VANTAGENS:**
+✅ Custo acessível
+✅ Instalação rápida
+✅ Adapta a QUALQUER terreno
+✅ Visibilidade total
+✅ Ventilação natural
+
+**ONDE USAR:**
+⚽ Quadras esportivas
+🌾 Fazendas e sítios
+🏗️ Canteiros de obra
+🏠 Terrenos baldios
+
+**POTENCIALIZE:**
+• Mourões de concreto = durabilidade
+• Arame farpado no topo = segurança
+• Concertina = máxima proteção
+
+📲 (21) 99812-2594
+
+#manchester #alambrado #cercamento #cerca #quadraesportiva #rural #fazenda #construcao #riodejaneiro`},
+
+{id:12,date:'2026-03-28',type:'ESTÁTICO',format:'Post estático',title:'📞 MARÇO ACABANDO: Seu estoque de aço está em dia?',desc:'Lembrete de fim de mês para reposição de estoque',
+narrativa:`POST ESTÁTICO — FIM DE MARÇO
+═══════════════════════════════════════
+
+HEADLINE: "MARÇO ACABANDO..."
+SUB: "Seu estoque de aço está em dia?"
+
+CHECKLIST:
+☐ Vergalhões (CA-50)
+☐ Telas soldadas
+☐ Arames (recozido, galvanizado)
+☐ Espaçadores
+☐ Treliças
+
+ALERTA:
+"Abril começa em 3 dias. Evite parar a obra por falta de material."
+
+CTA:
+"Faz o pedido agora. Entrega amanhã."
+📲 (21) 99812-2594`,
+imagem:`PROMPT IMAGEM ESTÁTICA
+═══════════════════════════════════════════════════════════════
+
+Calendar or planner aesthetic showing end of March with construction materials checklist.
+
+COMPOSITION:
+- Calendar showing March 28-31
+- Checklist overlay with steel products
+- Urgent but professional tone
+- Manchester branding
+
+STYLE:
+- Corporate reminder/alert graphic
+- 8K quality, 1:1 format
+- Urgency without being aggressive
+
+COLORS:
+- Manchester red for emphasis
+- Clean design
+- Professional corporate aesthetic`,
+video:`N/A — Formato estático`,
+tela:`TEXTO NA TELA
+═══════════════════════════════════════
+
+MARÇO ACABANDO...
+
+Seu estoque está em dia?
+
+☐ Vergalhões
+☐ Telas
+☐ Arames
+☐ Espaçadores
+
+Abril começa em 3 dias.
+
+Pediu? Entrega amanhã.
+📲 (21) 99812-2594`,
+legenda:`📞 MARÇO ACABANDO...
+
+E o estoque da sua obra, como tá?
+
+**CHECKLIST DE REPOSIÇÃO:**
+☐ Vergalhões CA-50 (todas as bitolas)
+☐ Telas soldadas
+☐ Arame recozido
+☐ Arame galvanizado
+☐ Espaçadores
+☐ Treliças
+
+⚠️ **Abril começa em 3 dias.**
+
+Evite parar a obra por falta de material. Antecipe seu pedido!
+
+✅ **Manchester entrega:**
+• Mesmo dia (RJ metropolitano)
+• 24-48h (interior RJ/MG)
+
+Faz o pedido agora. 👇
+
+📲 (21) 99812-2594
+
+#manchester #estoque #aco #reposicao #obra #construcaocivil #riodejaneiro #entrega`}
+]
+};
+
+// ============== VARIÁVEIS GLOBAIS ==============
+let currentMonth = 1;
+let currentTab = 'narrativa';
+let currentPost = null;
+let dropdownOpen = false;
+let POSTS = {};
+
+// ============== STORAGE ==============
+function loadFromStorage() {
+    try {
+        const saved = localStorage.getItem('manchester_posts_2026');
+        if (saved) {
+            POSTS = JSON.parse(saved);
+            console.log('✓ Dados carregados do localStorage');
+        } else {
+            POSTS = JSON.parse(JSON.stringify(INITIAL_POSTS));
+            saveToStorage();
+        }
+    } catch(e) {
+        console.error('Erro ao carregar:', e);
+        POSTS = JSON.parse(JSON.stringify(INITIAL_POSTS));
+    }
+}
+
+function saveToStorage() {
+    try {
+        localStorage.setItem('manchester_posts_2026', JSON.stringify(POSTS));
+        showToast('✓ Salvo!');
+    } catch(e) {
+        console.error('Erro ao salvar:', e);
+        showToast('❌ Erro ao salvar');
+    }
+}
+
+function exportData() {
+    const data = {
+        version: '1.0',
+        exportDate: new Date().toISOString(),
+        months: MONTHS_DATA,
+        posts: POSTS
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `manchester_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    showToast('✓ Backup exportado!');
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (data.posts) {
+                POSTS = data.posts;
+                saveToStorage();
+                renderPosts();
+                showToast('✓ Dados importados!');
+            }
+        } catch(err) {
+            showToast('❌ Arquivo inválido');
+        }
+    };
+    reader.readAsText(file);
+}
+
+// ============== RENDER ==============
+function renderMonthSelector() {
+    const month = MONTHS_DATA.find(m => m.id === currentMonth);
+    document.getElementById('selectorNum').textContent = String(month.id).padStart(2, '0');
+    document.getElementById('selectorName').textContent = month.name;
+    document.getElementById('selectorTheme').textContent = month.shortTheme;
+    
+    const dropdown = document.getElementById('monthDropdown');
+    dropdown.innerHTML = MONTHS_DATA.map(m => `
+        <div class="month-dropdown-item ${m.id === currentMonth ? 'active' : ''}" onclick="selectMonth(${m.id})">
+            <div class="month-dropdown-num">${String(m.id).padStart(2, '0')}</div>
+            <div class="month-dropdown-info"><h4>${m.name}</h4><span>${m.shortTheme}</span></div>
+            <div class="month-dropdown-posts">${m.posts} posts</div>
+        </div>
+    `).join('');
+    
+    const quickNav = document.getElementById('monthQuickNav');
+    quickNav.innerHTML = MONTHS_DATA.map(m => `
+        <button class="month-quick-btn ${m.id === currentMonth ? 'active' : ''}" onclick="selectMonth(${m.id})">
+            ${m.name.substring(0, 3).toUpperCase()}
+        </button>
+    `).join('');
+    
+    document.getElementById('statPosts').textContent = month.posts;
+    document.getElementById('statStories').textContent = month.stories;
+    document.getElementById('themeTitle').textContent = month.shortTheme;
+    document.getElementById('themeDesc').textContent = month.desc;
+}
+
+function toggleDropdown() {
+    dropdownOpen = !dropdownOpen;
+    document.getElementById('monthSelectorBtn').classList.toggle('open', dropdownOpen);
+    document.getElementById('monthDropdown').classList.toggle('open', dropdownOpen);
+}
+
+function selectMonth(id) {
+    currentMonth = id;
+    dropdownOpen = false;
+    document.getElementById('monthSelectorBtn').classList.remove('open');
+    document.getElementById('monthDropdown').classList.remove('open');
+    renderMonthSelector();
+    renderPosts();
+}
+
+function renderPosts() {
+    const month = MONTHS_DATA.find(m => m.id === currentMonth);
+    document.getElementById('mainTitle').innerHTML = `${month.name.toUpperCase()} — <span>${month.shortTheme}</span>`;
+    
+    const container = document.getElementById('postsList');
+    const posts = POSTS[currentMonth] || [];
+    
+    if (posts.length === 0) {
+        container.innerHTML = `<div class="empty-state"><h3>🚧 Em desenvolvimento</h3><p>Posts de ${month.name} serão adicionados em breve.</p></div>`;
+        return;
+    }
+    
+    const sorted = [...posts].sort((a, b) => new Date(a.date) - new Date(b.date));
+    const monthNames = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+    
+    container.innerHTML = sorted.map(p => {
+        const d = new Date(p.date);
+        return `
+            <div class="post-card" onclick="openModal(${p.id})">
+                <div class="post-date">
+                    <div class="post-date-day">${String(d.getDate()).padStart(2, '0')}</div>
+                    <div class="post-date-month">${monthNames[d.getMonth()]}</div>
+                </div>
+                <div class="post-info">
+                    <div class="post-type">${p.type}</div>
+                    <div class="post-title">${p.title}</div>
+                    <div class="post-desc">${p.desc}</div>
+                </div>
+                <div class="post-format">${p.format}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function openModal(id) {
+    const posts = POSTS[currentMonth] || [];
+    currentPost = posts.find(p => p.id === id);
+    if (!currentPost) return;
+    
+    document.getElementById('modalBadge').textContent = `POST #${String(currentPost.id).padStart(2, '0')} · ${currentPost.format.toUpperCase()}`;
+    document.getElementById('modalDate').value = currentPost.date;
+    document.getElementById('modalTitle').value = currentPost.title;
+    document.getElementById('modalDesc').textContent = currentPost.desc;
+    
+    currentTab = 'narrativa';
+    updateTabs();
+    renderTabContent();
+    
+    document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function switchTab(tab) {
+    currentTab = tab;
+    updateTabs();
+    renderTabContent();
+}
+
+function updateTabs() {
+    document.querySelectorAll('.modal-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.tab === currentTab);
+    });
+}
+
+function renderTabContent() {
+    const body = document.getElementById('modalBody');
+    const content = currentPost[currentTab] || 'Conteúdo não disponível';
+    const titles = {narrativa:'NARRATIVA/ROTEIRO',imagem:'PROMPTS DE IMAGEM',video:'DIREÇÃO DE VÍDEO',tela:'TEXTO NA TELA',legenda:'LEGENDA INSTAGRAM'};
+    const icons = {narrativa:'📝',imagem:'🖼️',video:'🎬',tela:'📺',legenda:'📱'};
+    
+    body.innerHTML = `
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-title ${currentTab}"><span class="section-icon">${icons[currentTab]}</span> ${titles[currentTab]}</div>
+                <button class="copy-btn" onclick="copyContent()">📋 Copiar</button>
+            </div>
+            <div class="section-body">
+                <div class="content-text" id="contentText">${content}</div>
+            </div>
+        </div>
+    `;
+}
+
+function copyContent() {
+    const text = document.getElementById('contentText').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.classList.add('copied');
+        btn.innerHTML = '✓ Copiado!';
+        showToast('✓ Copiado!');
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '📋 Copiar';
+        }, 2000);
+    });
+}
+
+function updatePostDate() {
+    const newDate = document.getElementById('modalDate').value;
+    if (currentPost && newDate) {
+        currentPost.date = newDate;
+        saveToStorage();
+        renderPosts();
+    }
+}
+
+function updatePostTitle() {
+    const newTitle = document.getElementById('modalTitle').value;
+    if (currentPost && newTitle) {
+        currentPost.title = newTitle;
+        saveToStorage();
+        renderPosts();
+    }
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ============== INIT ==============
+document.addEventListener('DOMContentLoaded', () => {
+    loadFromStorage();
+    renderMonthSelector();
+    renderPosts();
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') closeModal(); });
+document.addEventListener('click', e => {
+    if (!e.target.closest('.month-selector') && dropdownOpen) {
+        dropdownOpen = false;
+        document.getElementById('monthSelectorBtn').classList.remove('open');
+        document.getElementById('monthDropdown').classList.remove('open');
+    }
+});
+</script>
+</body>
+</html>
